@@ -1,0 +1,11 @@
+<app-after-login-header></app-after-login-header>
+
+<div class="main-layout" [class.sidebar-collapsed]="isSidebarCollapsed">
+  <app-side-nav-bar (toggle)="onSidebarToggled($event)"></app-side-nav-bar>
+
+  <div class="content-area">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<app-after-login-footer></app-after-login-footer>

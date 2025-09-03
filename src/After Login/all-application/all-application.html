@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Dashboard - Candidates</title>
+
+</head>
+<body>
+<!-- resume-preview-dialog.component.html -->
+<div class="custom-modal" *ngIf="showPdf">
+  <div class="custom-modal-content">
+    <button class="close-btn" (click)="closeModal()">X</button> 
+    <pdf-viewer
+          [src]="'data:application/pdf;base64,' + pdfBase64"
+          [render-text]="true"
+          [show-all]="true"
+          style="display: block; height: 100%; width: 100%;">
+        </pdf-viewer>
+
+   </div>
+</div> 
+  <h1 class="title">📋 Candidate Applications</h1>
+
+  <!-- src/app/dashboard/dashboard.component.html -->
+
+<div class="dashboard">
+  <div class="row" *ngFor="let candidate of employeeList">
+    <div class="profile">
+      <img [src]="'data:image/jpeg;base64,' + candidate.empImage" [alt]="candidate.firstName">
+      <div class="info">
+        <h3>{{ candidate.firstName +' '+ candidate.lastName}}</h3>
+        <p>Applied For: <strong>IT</strong></p>
+<div  *ngFor="let qual of candidate.emp_Qualification"><span  class="qualification">🎓 {{ qual.qualificationName }}</span></div>
+        
+        <span class="details">💼 {{ candidate.experience }} | 📍 {{ candidate.districtName }}</span>
+        <span class="contact">📞 {{ candidate.phone }} | ✉ {{ candidate.email }}</span>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="status new" >New </span>
+       <!-- [ngClass]="candidate.status" -->
+      <button class="btn view" (click)="openPdf(candidate.employeeID)">📄 Resume</button>
+      <button class="btn profile">👤 View Profile</button>
+      <button class="btn shortlist">✔ Shortlist</button>
+      <button class="btn reject">❌ Reject</button>
+      <button class="btn call">📞 Call</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
