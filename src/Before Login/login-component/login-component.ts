@@ -1,19 +1,44 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FoodService } from '../../Common/services/food-Services';
+import { CommonModule } from '@angular/common';
+import { UserDetail } from '../../Model/UserDetail';
+import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-component',
-  imports: [],
+  imports: [CommonModule,FormsModule   ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css'
 })
 
 
 export class LoginComponent {
-constructor(private router: Router) {}
-
+  username:string="";
+  pwd:string="";
+constructor(private router: Router,private foodService:FoodService,private toastr: ToastrService) {}
+userdata:UserDetail | undefined;
 onLogin(){
+  debugger
+  debugger
+  this.userdata={
+    userName:this.username,
+    password: this.pwd
+  }
+this.foodService.GetJwtToken(this.userdata).subscribe((data:any)=>{
+  debugger
+  if(data=="Invalid User"){
+ this.toastr.error("invalid Username or Password !", 'Error')
+  }
+  else{
 
-  this.router.navigate(['/welcome/dashboard']);
+    localStorage.setItem('token',data);
+    
+ this.toastr.success("Login Successfully", 'Success')
+ this.router.navigate(['/welcome/dashboard']);
+  }
+})
+  
 }
 }

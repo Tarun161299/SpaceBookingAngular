@@ -14,38 +14,16 @@
     <!-- Jobs -->
     <li>
       <div class="menu-item parent" (click)="toggleMenu('jobs')">
-        <i class="fas fa-briefcase"></i> <span *ngIf="!collapsed">Jobs</span>
+        <i class="fas fa-utensils"></i> <span *ngIf="!collapsed">Food items</span>
         <span class="arrow" *ngIf="!collapsed" [class.open]="openMenu === 'jobs'">▾</span>
       </div>
       <ul class="submenu" *ngIf="openMenu === 'jobs' && !collapsed">
-        <li><a routerLink="/jobs/recommended">Recommended Jobs</a></li>
-        <li><a routerLink="/jobs/saved">Saved Jobs</a></li>
-        <li><a (click)="this.navigateTo('/welcome/all_Application')" routerLinkActive="active">Applied Jobs</a></li>
+        <li><a routerLink="/jobs/recommended">Add items</a></li>
+        <li><a (click)="this.navigateTo('/welcome/all_Application')" routerLinkActive="active">items List</a></li>
       </ul>
     </li>
 
     <!-- Recruiters -->
-    <li>
-      <div class="menu-item parent" (click)="toggleMenu('recruiters')">
-        <i class="fas fa-id-card"></i>   <span *ngIf="!collapsed">Recruiters</span>
-        <span class="arrow" *ngIf="!collapsed" [class.open]="openMenu === 'recruiters'">▾</span>
-      </div>
-      <ul class="submenu" *ngIf="openMenu === 'recruiters' && !collapsed">
-        <li><a routerLink="/recruiters/following">Following</a></li>
-        <li><a routerLink="/recruiters/search">Search Recruiters</a></li>
-      </ul>
-    </li>
 
-    <!-- Settings -->
-    <li>
-      <div class="menu-item parent" (click)="toggleMenu('settings')">
-        <i class="fas fa-cog"></i> <span *ngIf="!collapsed">Settings</span>
-        <span class="arrow" *ngIf="!collapsed" [class.open]="openMenu === 'settings'">▾</span>
-      </div>
-      <ul class="submenu" *ngIf="openMenu === 'settings' && !collapsed">
-        <li><a routerLink="/settings/profile">Profile Settings</a></li>
-        <li><a routerLink="/settings/privacy">Privacy Settings</a></li>
-      </ul>
-    </li>
   </ul>
 </nav>

@@ -7,6 +7,7 @@ import { BeforeLoginComponent } from '../Before Login/before-login-component/bef
 import { AfterLoginComponent } from '../After Login/after-login-component/after-login-component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Menu } from '../menu/menu';
+import { ToastrModule } from 'ngx-toastr';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu],

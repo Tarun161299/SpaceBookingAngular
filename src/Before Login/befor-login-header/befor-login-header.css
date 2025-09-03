@@ -1,5 +1,5 @@
 .header {
-  background: #fff8f0;
+  background: #171818c2;
   border-bottom: 2px solid #d4a373;
   padding: 10px 30px;
   position: sticky;
@@ -25,14 +25,14 @@
 
 .logo h1 {
   font-size: 20px;
-  color: #5a3e2b;
+  color: #f4eeea;
   margin: 0;
 }
 
 .nav-links a {
   margin: 0 15px;
   text-decoration: none;
-  color: #5a3e2b;
+  color: #f4eeea;
   font-weight: 500;
   transition: color 0.3s ease;
 }
