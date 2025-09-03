@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Haven - Space Booking & Menu Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #c19a6b;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #c19a6b;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color:    #2c3e50;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background:   #2c3e50;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #a57a52;
+        }
+        
+        .btn-success {
+            background:  #2c3e50;
+        }
+        
+        .btn-success:hover {
+            background: #219653;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .btn-danger {
+            background: var(--accent);
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 10px auto;
+        }
+        
+        .spaces {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .space-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .space-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .space-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .space-content {
+            padding: 1.5rem;
+        }
+        
+        .space-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .space-content p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .menu-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .menu-content {
+            padding: 1rem;
+        }
+        
+        .menu-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .menu-content p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-price {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .admin-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-form {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .booking-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        
+        .footer-content p {
+            margin: 1rem 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--secondary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .modal h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .modal p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            background: #f5f5f5;
+            border-radius: 5px 5px 0 0;
+            margin-right: 0.5rem;
+        }
+        
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .menu-item-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .admin-menu-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .admin-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Host Your Perfect Celebration</h1>
+            <p>Private dining spaces for parties and special occasions</p>
+            <a href="#booking" class="btn">Book Now</a>
+        </div>
+    </section>
+
+    <section id="spaces" class="container">
+        <h2 class="section-title">Our Spaces</h2>
+        <div class="spaces">
+            <div class="space-card">
+                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fDB8fHww');"></div>
+                <div class="space-content">
+                    <h3>Private Dining Room</h3>
+                    <p>Elegant space for up to 20 guests with personalized service</p>
+                    <p class="price">$250 booking fee</p>
+                    <button class="btn select-space" data-space="Private Dining Room" data-price="250">Select Space</button>
+                </div>
+            </div>
+            
+            <div class="space-card">
+                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJlc3RhdXJhbnQlMjBwYXRpb3xlbnwwfHwwfHx8MA%3D%3D');"></div>
+                <div class="space-content">
+                    <h3>Garden Patio</h3>
+                    <p>Beautiful outdoor space with natural surroundings for up to 30 guests</p>
+                    <p class="price">$350 booking fee</p>
+                    <button class="btn select-space" data-space="Garden Patio" data-price="350">Select Space</button>
+                </div>
+            </div>
+            
+            <div class="space-card">
+                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJlc3RhdXJhbnQlMjBldmVudCUyMHNwYWNlfGVufDB8fDB8fHww');"></div>
+                <div class="space-content">
+                    <h3>Grand Hall</h3>
+                    <p>Spacious area for large gatherings and events up to 100 guests</p>
+                    <p class="price">$800 booking fee</p>
+                    <button class="btn select-space" data-space="Grand Hall" data-price="800">Select Space</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="container">
+        <h2 class="section-title">Our Menu</h2>
+        <div class="menu" id="menu-container">
+            <!-- Menu items will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <section id="booking" class="container">
+        <h2 class="section-title">Book Your Space</h2>
+        <div class="booking-form">
+            <form id="reservation-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="space">Selected Space</label>
+                        <input type="text" id="space" name="space" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Booking Fee</label>
+                        <input type="text" id="price" name="price" readonly required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Event Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Event Time</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Special Requests</label>
+                    <textarea id="message" name="message"></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Submit Booking Request</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="admin" class="container">
+        <h2 class="section-title">Admin Panel</h2>
+        <div class="admin-panel">
+            <div class="tabs">
+                <div class="tab active" data-tab="menu-management">Menu Management</div>
+                <div class="tab" data-tab="booking-management">Booking Management</div>
+            </div>
+            
+            <div class="tab-container">
+                <div class="tab-content active" id="menu-management">
+                    <div class="admin-controls">
+                        <button class="btn" id="add-dish-btn">Add New Dish</button>
+                        <button class="btn btn-success" id="export-menu-btn">Export Menu</button>
+                        <button class="btn btn-warning" id="import-menu-btn">Import Menu</button>
+                    </div>
+                    
+                    <div class="admin-form" id="dish-form" style="display: none;">
+                        <h3>Add/Edit Dish</h3>
+                        <form id="menu-item-form">
+                            <input type="hidden" id="dish-id">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dish-name">Dish Name</label>
+                                    <input type="text" id="dish-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dish-category">Category</label>
+                                    <select id="dish-category" required>
+                                        <option value="appetizers">Appetizers</option>
+                                        <option value="main">Main Courses</option>
+                                        <option value="desserts">Desserts</option>
+                                        <option value="drinks">Drinks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dish-price">Price ($)</label>
+                                    <input type="number" id="dish-price" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dish-image">Image URL</label>
+                                    <input type="text" id="dish-image" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="dish-description">Description</label>
+                                <textarea id="dish-description" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn">Save Dish</button>
+                                <button type="button" class="btn btn-danger" id="cancel-dish-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="admin-menu-list" id="admin-menu-list">
+                        <!-- Admin menu items will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="booking-management">
+                    <h3>Recent Booking Requests</h3>
+                    <div id="bookings-list">
+                        <!-- Bookings will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <h2>Booking Request Received!</h2>
+            <p>Thank you for your interest in booking with us. We have received your request and will contact you within 24 hours to confirm your reservation and discuss details.</p>
+            <p>Please note: Payment will be made at the restaurant on the day of your event.</p>
+            <button class="close-modal">Close</button>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Data storage
+        let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [
+            {
+                id: 1,
+                name: "Bruschetta Platter",
+                category: "appetizers",
+                price: 12.99,
+                image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D",
+                description: "Selection of bruschetta with tomatoes, mushrooms, and herbs"
+            },
+            {
+                id: 2,
+                name: "Grilled Salmon",
+                category: "main",
+                price: 24.99,
+                image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1haW4lMjBjb3Vyc2V8ZW58MHx8MHx8fDA%3D",
+                description: "Fresh salmon fillet with lemon butter sauce and seasonal vegetables"
+            },
+            {
+                id: 3,
+                name: "Chocolate Lava Cake",
+                category: "desserts",
+                price: 8.99,
+                image: "https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGRlc3NlcnR8ZW58MHx8MHx8fDA%3D",
+                description: "Warm chocolate cake with a molten center, served with vanilla ice cream"
+            }
+        ];
+        
+        let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        let currentDishId = null;
+
+        // Initialize the application
+        function init() {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('min', today);
+            
+            // Load menu items
+            loadMenuItems();
+            loadAdminMenuItems();
+            loadBookings();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Space selection
+            const selectButtons = document.querySelectorAll('.select-space');
+            const spaceInput = document.getElementById('space');
+            const priceInput = document.getElementById('price');
+            
+            selectButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const space = button.getAttribute('data-space');
+                    const price = button.getAttribute('data-price');
+                    
+                    spaceInput.value = space;
+                    priceInput.value = `$${price}`;
+                    
+                    // Scroll to booking form
+                    document.getElementById('booking').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Form submission
+            const form = document.getElementById('reservation-form');
+            const modal = document.getElementById('success-modal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Create booking object
+                const booking = {
+                    id: Date.now(),
+                    space: document.getElementById('space').value,
+                    price: document.getElementById('price').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    guests: document.getElementById('guests').value,
+                    date: document.getElementById('date').value,
+                    time: document.getElementById('time').value,
+                    message: document.getElementById('message').value,
+                    status: 'Pending',
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                // Save booking
+                bookings.push(booking);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                
+                // Show success message
+                modal.style.display = 'flex';
+                
+                // Reload bookings
+                loadBookings();
+            });
+            
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+                form.reset();
+            });
+            
+            // Close modal if clicked outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    form.reset();
+                }
+            });
+            
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show the selected tab content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Dish form handling
+            document.getElementById('add-dish-btn').addEventListener('click', showDishForm);
+            document.getElementById('cancel-dish-btn').addEventListener('click', hideDishForm);
+            document.getElementById('menu-item-form').addEventListener('submit', saveDish);
+            
+            // Export/Import buttons
+            document.getElementById('export-menu-btn').addEventListener('click', exportMenu);
+            document.getElementById('import-menu-btn').addEventListener('click', triggerImport);
+        }
+
+        // Load menu items for customers
+        function loadMenuItems() {
+            const menuContainer = document.getElementById('menu-container');
+            menuContainer.innerHTML = '';
+            
+            if (menuItems.length === 0) {
+                menuContainer.innerHTML = '<p class="no-items">No menu items available. Please check back later.</p>';
+                return;
+            }
+            
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <div class="menu-img" style="background-image: url('${item.image}')"></div>
+                    <div class="menu-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p class="menu-price">$${item.price.toFixed(2)}</p>
+                    </div>
+                `;
+                menuContainer.appendChild(menuItem);
+            });
+        }
+
+        // Load menu items for admin
+        function loadAdminMenuItems() {
+            const adminMenuList = document.getElementById('admin-menu-list');
+            adminMenuList.innerHTML = '';
+            
+            if (menuItems.length === 0) {
+                adminMenuList.innerHTML = '<p class="no-items">No menu items added yet.</p>';
+                return;
+            }
+            
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <div class="menu-img" style="background-image: url('${item.image}')"></div>
+                    <div class="menu-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p class="menu-price">$${item.price.toFixed(2)}</p>
+                        <div class="menu-item-actions">
+                            <button class="btn btn-warning edit-dish" data-id="${item.id}">Edit</button>
+                            <button class="btn btn-danger delete-dish" data-id="${item.id}">Delete</button>
+                        </div>
+                    </div>
+                `;
+                adminMenuList.appendChild(menuItem);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-dish').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.getAttribute('data-id'));
+                    editDish(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-dish').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.getAttribute('data-id'));
+                    deleteDish(id);
+                });
+            });
+        }
+
+        // Load bookings for admin
+        function loadBookings() {
+            const bookingsList = document.getElementById('bookings-list');
+            bookingsList.innerHTML = '';
+            
+            if (bookings.length === 0) {
+                bookingsList.innerHTML = '<p class="no-items">No booking requests yet.</p>';
+                return;
+            }
+            
+            bookings.forEach(booking => {
+                const bookingItem = document.createElement('div');
+                bookingItem.className = 'booking-item';
+                bookingItem.innerHTML = `
+                    <div class="booking-content">
+                        <h4>${booking.space} - ${booking.date} at ${booking.time}</h4>
+                        <p><strong>Name:</strong> ${booking.name}</p>
+                        <p><strong>Contact:</strong> ${booking.email}, ${booking.phone}</p>
+                        <p><strong>Guests:</strong> ${booking.guests}</p>
+                        <p><strong>Status:</strong> ${booking.status}</p>
+                        <p><strong>Received:</strong> ${booking.timestamp}</p>
+                        ${booking.message ? `<p><strong>Special Requests:</strong> ${booking.message}</p>` : ''}
+                    </div>
+                `;
+                bookingsList.appendChild(bookingItem);
+            });
+        }
+
+        // Show dish form
+        function showDishForm() {
+            document.getElementById('dish-form').style.display = 'block';
+            document.getElementById('add-dish-btn').style.display = 'none';
+        }
+
+        // Hide dish form
+        function hideDishForm() {
+            document.getElementById('dish-form').style.display = 'none';
+            document.getElementById('add-dish-btn').style.display = 'block';
+            document.getElementById('menu-item-form').reset();
+            currentDishId = null;
+        }
+
+        // Save dish (add or edit)
+        function saveDish(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('dish-name').value;
+            const category = document.getElementById('dish-category').value;
+            const price = parseFloat(document.getElementById('dish-price').value);
+            const image = document.getElementById('dish-image').value;
+            const description = document.getElementById('dish-description').value;
+            
+            if (currentDishId) {
+                // Edit existing dish
+                const index = menuItems.findIndex(item => item.id === currentDishId);
+                if (index !== -1) {
+                    menuItems[index] = {
+                        id: currentDishId,
+                        name,
+                        category,
+                        price,
+                        image,
+                        description
+                    };
+                }
+            } else {
+                // Add new dish
+                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(item => item.id)) + 1 : 1;
+                menuItems.push({
+                    id: newId,
+                    name,
+                    category,
+                    price,
+                    image,
+                    description
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            
+            // Reload menus
+            loadMenuItems();
+            loadAdminMenuItems();
+            
+            // Hide form
+            hideDishForm();
+        }
+
+        // Edit dish
+        function editDish(id) {
+            const dish = menuItems.find(item => item.id === id);
+            if (dish) {
+                document.getElementById('dish-id').value = dish.id;
+                document.getElementById('dish-name').value = dish.name;
+                document.getElementById('dish-category').value = dish.category;
+                document.getElementById('dish-price').value = dish.price;
+                document.getElementById('dish-image').value = dish.image;
+                document.getElementById('dish-description').value = dish.description;
+                
+                currentDishId = dish.id;
+                showDishForm();
+            }
+        }
+
+        // Delete dish
+        function deleteDish(id) {
+            if (confirm('Are you sure you want to delete this dish?')) {
+                menuItems = menuItems.filter(item => item.id !== id);
+                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                loadMenuItems();
+                loadAdminMenuItems();
+            }
+        }
+
+        // Export menu to JSON file
+        function exportMenu() {
+            const dataStr = JSON.stringify(menuItems, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'restaurant-menu.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Trigger import menu from JSON file
+        function triggerImport() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => { 
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsText(file,'UTF-8');
+                
+                reader.onload = readerEvent => {
+                    const content = readerEvent.target.result;
+                    try {
+                        const importedMenu = JSON.parse(content);
+                        if (Array.isArray(importedMenu)) {
+                            if (confirm('This will replace your current menu. Are you sure?')) {
+                                menuItems = importedMenu;
+                                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                                loadMenuItems();
+                                loadAdminMenuItems();
+                                alert('Menu imported successfully!');
+                            }
+                        } else {
+                            alert('Invalid menu file format.');
+                        }
+                    } catch (error) {
+                        alert('Error parsing menu file: ' + error.message);
+                    }
+                };
+            };
+            
+            input.click();
+        }
+
+        // Initialize the application when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
