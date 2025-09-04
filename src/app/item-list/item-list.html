@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="menu-table-container">
+      <h2>🍽️ Our Menu</h2>
+  
+      <div class="table-wrapper">
+        <table class="menu-table">
+          <thead>
+            <tr>
+                <th>Sno</th> 
+            <th>Image</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Rate (₹)</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pagedData; let i = index">
+              <!-- Description -->
+              <td>{{ i + 1 }}</td> 
+              <td> <img [src]="'data:image/jpeg;base64,' + item.fileBase64String" [alt]="item.foodDescription">
+                <div *ngIf="editIndex === i">
+                    <input type="file" accept=".jpg,.jpeg" (change)="onFileSelected($event, item)" />
+                    <small style="color:red;" *ngIf="fileError">{{ fileError }}</small>
+                  </div> </td>
+          
+              <td *ngIf="editIndex !== i">{{ item.foodDescription }}</td>
+              <td *ngIf="editIndex === i">
+                <input [(ngModel)]="item.foodDescription" />
+              </td>
+  
+              <!-- Category -->
+              <td *ngIf="editIndex !== i">{{ item.category }}</td>
+              <td *ngIf="editIndex === i">
+                <select  [(ngModel)]="item.category">
+                    <option value="">-- Select Category --</option>
+                    <option value="3">🥗 Beverages</option>
+                    <option value="2">🍛 Main Course</option>
+                    <option value="1">🍨 Dessert</option>
+                    
+                  </select>
+              </td>
+  
+              <!-- Quantity -->
+              <td *ngIf="editIndex !== i">{{ item.quantity }}</td>
+              <td *ngIf="editIndex === i">
+                <input type="number" [(ngModel)]="item.quantity" />
+              </td>
+  
+              <!-- Rate -->
+              <td *ngIf="editIndex !== i">{{ item.rate }}</td>
+              <td *ngIf="editIndex === i">
+                <input type="number" [(ngModel)]="item.rate" />
+              </td>
+  
+              <!-- Actions -->
+              <td>
+                <button class="btn edit-btn" *ngIf="editIndex !== i" (click)="startEdit(i)">✏ Edit</button>
+                <button class="btn edit-btn" *ngIf="editIndex === i" (click)="saveEdit(item)">💾 Save</button>
+                <button class="btn delete-btn" *ngIf="editIndex === i" (click)="cancelEdit()">❌ Cancel</button>
+              </td>
+              <td>
+                <button class="btn delete-btn" (click)="deleteItem(item)">🗑 Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Pagination -->
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">⬅ Prev</button>
+        <span>Page {{currentPage}} of {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next ➡</button>
+      </div>
+    </div>
+  </div>
+  

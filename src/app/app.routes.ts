@@ -6,6 +6,8 @@ import { AfterLoginComponent } from '../After Login/after-login-component/after-
 import { Dashboard } from '../After Login/dashboard/dashboard';
 import { AllApplication } from '../After Login/all-application/all-application';
 import { Menu } from '../menu/menu';
+import { AddItems } from './add-items/add-items';
+import { ItemList } from './item-list/item-list';
 
 export const routes: Routes = [
  
@@ -16,6 +18,7 @@ export const routes: Routes = [
        { path: 'login', component: LoginComponent },
        {path: '',
         component: Menu}
+
     ]
     
   },{
@@ -24,7 +27,10 @@ export const routes: Routes = [
     component: AfterLoginComponent,
     children: [
       { path: 'dashboard', component: Dashboard , pathMatch: 'full'}, // default
+      {path: 'AddItem/:mode/:id',
+        component: AddItems},
       { path: 'all_Application', component: AllApplication , pathMatch: 'full'}, // default   
+      { path: 'itemList', component: ItemList , pathMatch: 'full'}, // default   
     ]
   },
   { path: '**', redirectTo: '' }

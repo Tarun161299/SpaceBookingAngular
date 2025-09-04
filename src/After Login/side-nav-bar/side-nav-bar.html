@@ -6,7 +6,7 @@
   <ul class="menu">
     <!-- Dashboard -->
     <li>
-      <a routerLink="/dashboard" class="menu-item">
+      <a  (click)="this.navigateTo('/welcome/dashboard')"   class="menu-item">
         <i class="fas fa-home"></i> <span *ngIf="!collapsed">Dashboard</span>
       </a>
     </li>
@@ -18,8 +18,8 @@
         <span class="arrow" *ngIf="!collapsed" [class.open]="openMenu === 'jobs'">▾</span>
       </div>
       <ul class="submenu" *ngIf="openMenu === 'jobs' && !collapsed">
-        <li><a routerLink="/jobs/recommended">Add items</a></li>
-        <li><a (click)="this.navigateTo('/welcome/all_Application')" routerLinkActive="active">items List</a></li>
+        <li><a (click)="this.navigateTo('/welcome/AddItem/save/0')">Add items</a></li>
+        <li><a (click)="this.navigateTo('/welcome/itemList')" routerLinkActive="active">items List</a></li>
       </ul>
     </li>
 

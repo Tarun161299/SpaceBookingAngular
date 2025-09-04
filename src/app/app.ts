@@ -8,9 +8,11 @@ import { AfterLoginComponent } from '../After Login/after-login-component/after-
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Menu } from '../menu/menu';
 import { ToastrModule } from 'ngx-toastr';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ItemList } from './item-list/item-list';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu],
+  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule ],
 
     
   templateUrl: './app.html',

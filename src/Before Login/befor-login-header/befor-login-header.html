@@ -9,8 +9,8 @@
       <!-- <a routerLink="/">Home</a>
       <a routerLink="/menu">Menu</a> -->
       <!-- <a routerLink="/about">Login</a> -->
-      <a  *ngIf="!showHome" (click)="navigateTo('/login')">Login</a>
-      <a *ngIf="showHome" (click)="navigateTo('/')">Home</a>
+      <a  *ngIf="showHome" (click)="navigateTo('/login')">Login</a>
+      <a *ngIf="!showHome" (click)="navigateTo('/')">Home</a>
     </nav>
   </div>
 </header>
