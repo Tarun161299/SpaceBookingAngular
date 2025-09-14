@@ -13,7 +13,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "incremental": false,
+    "tsBuildInfoFile": "./.tsbuildinfo"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

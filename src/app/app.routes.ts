@@ -8,6 +8,7 @@ import { AllApplication } from '../After Login/all-application/all-application';
 import { Menu } from '../menu/menu';
 import { AddItems } from './add-items/add-items';
 import { ItemList } from './item-list/item-list';
+import { AuthGuard } from '../Common/authguard';
 
 export const routes: Routes = [
  
@@ -26,11 +27,11 @@ export const routes: Routes = [
      path: 'welcome',
     component: AfterLoginComponent,
     children: [
-      { path: 'dashboard', component: Dashboard , pathMatch: 'full'}, // default
+      { path: 'dashboard', component: Dashboard , pathMatch: 'full',canActivate: [AuthGuard]}, // default
       {path: 'AddItem/:mode/:id',
-        component: AddItems},
-      { path: 'all_Application', component: AllApplication , pathMatch: 'full'}, // default   
-      { path: 'itemList', component: ItemList , pathMatch: 'full'}, // default   
+        component: AddItems,canActivate: [AuthGuard]},
+      { path: 'all_Application', component: AllApplication , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
+      { path: 'itemList', component: ItemList , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
     ]
   },
   { path: '**', redirectTo: '' }
