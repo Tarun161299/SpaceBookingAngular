@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings - Urban Cafe</title>
+    <link rel="stylesheet" href="booking-list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bookings-container">
+    <!-- Header -->
+    <header class="bookings-header">
+        <div class="header-content">
+            <h1><i class="fas fa-calendar-alt"></i> Booking Management</h1>
+            <p>View and manage all customer reservations</p>
+        </div>
+        <div class="header-stats">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-list"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>5</h3>
+                    <p>Total Bookings</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon confirmed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>3</h3>
+                    <p>Confirmed</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- New Booking Notification -->
+    <div class="notification-popup" *ngIf="showNotification">
+        <div class="notification-content">
+            <div class="notification-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="notification-text">
+                <h4>New Booking Received!</h4>
+                <p>New customer has booked a table for 3 people!</p>
+            </div>
+            <button class="notification-close" (click)="closeNotification()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <div class="filter-group">
+                <label for="statusFilter">Filter by Status:</label>
+                <select id="statusFilter" (change)="loadBookings()">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="dateFilter">Filter by Date:</label>
+                <input type="date" id="dateFilter" (change)="loadBookings()">
+                 <!-- [(ngModel)]="dateFilter" -->
+            </div>
+            <div class="filter-group">
+                <label for="searchInput">Search:</label>
+                <input type="text" id="searchInput" [(ngModel)]="searchTerm" (input)="loadBookings()" placeholder="Search by name or email...">
+            </div>
+            <button class="clear-filters" (click)="clearFilters()">
+                <i class="fas fa-times"></i> Clear Filters
+            </button>
+            <button class="clear-filters" (click)="simulateNewBooking()" style="background: #4CAF50;">
+                <i class="fas fa-plus"></i> Simulate Booking
+            </button>
+        </div>
+    </section>
+
+    <!-- Bookings Table -->
+    <section class="bookings-table-section">
+        <div class="table-container">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Contact</th>
+                        <th>Date & Time</th>
+                        <th>Guests</th>
+                        <th>Special Requests</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>John Smith</strong>
+                        </td>
+                        <td>
+                            <div>john.smith@email.com</div>
+                            <div class="text-muted">(02) 1234 5678</div>
+                        </td>
+                        <td>
+                            <div>Mon, Jan 15, 2024</div>
+                            <div class="text-muted">7:00 PM</div>
+                        </td>
+                        <td>4 people</td>
+                        <td>Window seat preferred</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Sarah Johnson</strong>
+                        </td>
+                        <td>
+                            <div>sarah.j@email.com</div>
+                            <div class="text-muted">(02) 9876 5432</div>
+                        </td>
+                        <td>
+                            <div>Tue, Jan 16, 2024</div>
+                            <div class="text-muted">6:30 PM</div>
+                        </td>
+                        <td>2 people</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Mike Wilson</strong>
+                        </td>
+                        <td>
+                            <div>mike.wilson@email.com</div>
+                            <div class="text-muted">(02) 4567 8901</div>
+                        </td>
+                        <td>
+                            <div>Sun, Jan 14, 2024</div>
+                            <div class="text-muted">8:00 PM</div>
+                        </td>
+                        <td>6 people</td>
+                        <td>Celebrating birthday</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Emily Brown</strong>
+                        </td>
+                        <td>
+                            <div>emily.b@email.com</div>
+                            <div class="text-muted">(02) 2345 6789</div>
+                        </td>
+                        <td>
+                            <div>Wed, Jan 17, 2024</div>
+                            <div class="text-muted">7:30 PM</div>
+                        </td>
+                        <td>3 people</td>
+                        <td>Vegetarian options needed</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>David Lee</strong>
+                        </td>
+                        <td>
+                            <div>david.lee@email.com</div>
+                            <div class="text-muted">(02) 3456 7890</div>
+                        </td>
+                        <td>
+                            <div>Thu, Jan 18, 2024</div>
+                            <div class="text-muted">6:00 PM</div>
+                        </td>
+                        <td>5 people</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- No Bookings Message -->
+            <div class="no-bookings" style="display: none;">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Bookings Found</h3>
+                <p>There are no bookings matching your criteria.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Showing 1 to 5 of 5 entries
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                <div class="pagination-pages">
+                    <button class="page-btn active">1</button>
+                </div>
+                
+                <button class="pagination-btn" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

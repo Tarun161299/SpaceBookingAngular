@@ -10,6 +10,7 @@ import { AddItems } from './add-items/add-items';
 import { ItemList } from './item-list/item-list';
 import { AuthGuard } from '../Common/authguard';
 import { BookNow } from '../After Login/book-now/book-now';
+import { BookingList } from '../After Login/booking-list/booking-list';
 
 export const routes: Routes = [
  
@@ -34,7 +35,7 @@ export const routes: Routes = [
         component: AddItems,canActivate: [AuthGuard]},
       { path: 'all_Application', component: AllApplication , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
       { path: 'itemList', component: ItemList , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
-     
+     { path: 'booking-list', component: BookingList , pathMatch: 'full',canActivate: [AuthGuard]},
     ]
   },
   { path: '**', redirectTo: '' }

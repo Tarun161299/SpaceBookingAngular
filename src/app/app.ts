@@ -12,9 +12,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ItemList } from './item-list/item-list';
 import { BookNow } from '../After Login/book-now/book-now';
 import { LoaderComponent } from '../loader/loader';
+import { BookingList } from '../After Login/booking-list/booking-list';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule,LoaderComponent,BookNow],
+  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule,LoaderComponent,BookNow,BookingList],
 
     
   templateUrl: './app.html',
