@@ -3,6 +3,7 @@ import { FoodService } from '../Common/services/food-Services';
 import { FoodData } from '../Model/FoodData';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { LoaderService } from '../Common/services/loader-service';
 
 @Component({
   selector: 'app-menu',
@@ -12,10 +13,11 @@ import { Router } from '@angular/router';
 })
 export class Menu {
   foodData:FoodData[]=[];
-constructor(private foodService:FoodService,private router: Router) {}
+constructor(private foodService:FoodService,private router: Router,private loaderService:LoaderService) {}
 ngOnInit(): void {
   // This code runs when the page/component loads
   console.log('Page loaded!');
+  this.loaderService.show();
    this.loadAllFoodData();
 }
 loadAllFoodData(){
@@ -24,9 +26,11 @@ this.foodService.getAllFoodDetails().subscribe({
   next: (res:any) => {
     debugger
     this.foodData= res;
+    this.loaderService.hide();
   },
   error: (err) => {
     console.error('Error fetching records', err);
+      this.loaderService.hide();
   }
 });;
 }

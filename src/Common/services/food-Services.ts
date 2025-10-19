@@ -51,6 +51,7 @@ export class FoodService {
   }
 
   UpdateData(foodmenu:FoodData): Observable<any> {
+    debugger
     return this.http.post<any>(`${this.baseUrl+ApiEndpoints.updateData}`,foodmenu, { headers: this.getHeadersToken() });
   }
 

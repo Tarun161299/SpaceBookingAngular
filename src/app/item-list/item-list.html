@@ -34,7 +34,7 @@
               <!-- Category -->
               <td *ngIf="editIndex !== i">{{ item.category }}</td>
               <td *ngIf="editIndex === i">
-                <select  [(ngModel)]="item.category">
+                <select  [(ngModel)]="item.categoryId">
                     <option value="">-- Select Category --</option>
                     <option value="3">🥗 Beverages</option>
                     <option value="2">🍛 Main Course</option>

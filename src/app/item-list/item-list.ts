@@ -5,6 +5,7 @@ import { FoodService } from '../../Common/services/food-Services';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../Common/services/loader-service';
 
 @Component({
   selector: 'app-item-list',
@@ -16,16 +17,17 @@ export class ItemList {
   foodData:FoodData[]=[];
   pagedData: FoodData[] = [];  // records for current page
 currentPage = 1;
-pageSize = 10;           // records per page
+pageSize = 5;           // records per page
 totalPages = 1;
 editIndex: number | null = null;
 backupRow: any = null;
 filetype:any=null;
 newFileBase64: string | null = null;
-constructor(private foodService:FoodService,private router: Router,private toast:ToastrService) {}
+constructor(private foodService:FoodService,private router: Router,private toast:ToastrService,private loaderService:LoaderService) {}
 ngOnInit(): void {
   // This code runs when the page/component loads
   console.log('Page loaded!');
+  this.loaderService.show();
    this.loadAllFoodData();
 }
 loadAllFoodData(){
@@ -38,6 +40,7 @@ this.foodService.getAllFoodDetails().subscribe({
   },
   error: (err) => {
     console.error('Error fetching records', err);
+     this.loaderService.hide();
   }
 });;
 }
@@ -46,6 +49,7 @@ updatePagedData() {
   const start = (this.currentPage - 1) * this.pageSize;
   const end = start + this.pageSize;
   this.pagedData = this.foodData.slice(start, end);
+  this.loaderService.hide();
 }
 
 nextPage() {
@@ -76,7 +80,9 @@ startEdit(index: number) {
   this.editIndex = index;
   this.backupRow = { ...this.foodData[index] }; // keep backup
 }
-
+returnId(item:string){
+return item=='Beverages'?'3':item=='Main Course'?'2':item=='Dessert'?'1':'2';
+}
 fileError: string = '';
 saveEdit(item: any) {
   // If a new image was uploaded, update it
@@ -84,6 +90,7 @@ saveEdit(item: any) {
     item.fileBase64String = this.newFileBase64;
     item.fileType=this.filetype;
   }
+  item.rate=item.rate.toString()
 this.foodService.UpdateData(item).subscribe({
   next: (res:any) => {
     debugger

@@ -10,9 +10,10 @@ import { Menu } from '../menu/menu';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ItemList } from './item-list/item-list';
+import { LoaderComponent } from '../loader/loader';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule ],
+  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule,LoaderComponent ],
 
     
   templateUrl: './app.html',

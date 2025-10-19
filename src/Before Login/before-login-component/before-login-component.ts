@@ -10,6 +10,8 @@ import { LoginComponent } from '../login-component/login-component';
   templateUrl: './before-login-component.html',
   styleUrl: './before-login-component.css'
 })
+
+
 export class BeforeLoginComponent {
 
 }

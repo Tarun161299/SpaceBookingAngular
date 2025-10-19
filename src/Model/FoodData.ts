@@ -5,6 +5,7 @@ export interface FoodData {
         quantity: number,
         rate: string,
         category: string,
+        categoryId: string,
         createdOn:Date,
         updatedOn: Date,
         fileBase64String: string,
