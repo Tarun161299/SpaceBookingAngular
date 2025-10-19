@@ -6,6 +6,7 @@ import { ApiEndpoints } from '../Endpoints/api-endpoints';
 import { EmployeeData } from '../../Model/EmployeeData';
 import { BookNow } from '../../After Login/book-now/book-now';
 import { BookingModel } from '../../Model/booking';
+import { LoaderService } from './loader-service';
 
 @Injectable({
   providedIn: 'root'

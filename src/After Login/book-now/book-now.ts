@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Booking } from '../../Common/services/booking';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../Common/services/loader-service';
 
 @Component({
   selector: 'app-book-now',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class BookNow {
  bookingForm!: FormGroup;
   showSuccessPopup: boolean = false;
-  constructor(private fb: FormBuilder,private bookingService:Booking,private tostr:ToastrService) {}
+  constructor(private fb: FormBuilder,private bookingService:Booking,private tostr:ToastrService,private loader:LoaderService) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -43,17 +44,19 @@ export class BookNow {
 
   onSubmit(): void {
     if (this.bookingForm.valid) {
+      this.loader.show();
       console.log('Form submitted:', this.bookingForm.value);
       debugger
       this.bookingService.SaveBooking(this.bookingForm.value).subscribe({next:(data:any)=>{
 this.showSuccessPopup = true;
-      
+      this.loader.hide();
       // Hide popup after 2 seconds
       setTimeout(() => {
         this.showSuccessPopup = false;
         this.bookingForm.reset();
       }, 2000);
       },error:(err:any)=>{
+        this.loader.hide()
 this.tostr.error('Booking failed Try later')
       }});
       // Handle form submission logic here
