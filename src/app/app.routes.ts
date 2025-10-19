@@ -9,6 +9,7 @@ import { Menu } from '../menu/menu';
 import { AddItems } from './add-items/add-items';
 import { ItemList } from './item-list/item-list';
 import { AuthGuard } from '../Common/authguard';
+import { BookNow } from '../After Login/book-now/book-now';
 
 export const routes: Routes = [
  
@@ -18,7 +19,8 @@ export const routes: Routes = [
     children: [
        { path: 'login', component: LoginComponent },
        {path: '',
-        component: Menu}
+        component: Menu},
+         {path : 'book-now',component:BookNow}
 
     ]
     
@@ -32,6 +34,7 @@ export const routes: Routes = [
         component: AddItems,canActivate: [AuthGuard]},
       { path: 'all_Application', component: AllApplication , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
       { path: 'itemList', component: ItemList , pathMatch: 'full',canActivate: [AuthGuard]}, // default   
+     
     ]
   },
   { path: '**', redirectTo: '' }
