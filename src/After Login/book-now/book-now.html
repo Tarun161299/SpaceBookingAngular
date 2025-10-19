@@ -1,0 +1,138 @@
+<div class="booking-page">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Reserve Your Table</h1>
+            <p>Experience the finest coffee and cuisine at Urban Cafe. Book your table now for an unforgettable dining experience.</p>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section">
+        <div class="container">
+            <h2 class="section-title">Make a Reservation</h2>
+            <div class="booking-container">
+                <!-- Booking Form -->
+                <div class="booking-form">
+                    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" formControlName="name" required>
+                                <div *ngIf="bookingForm.get('name')?.invalid && bookingForm.get('name')?.touched" class="error-message">
+                                    <div *ngIf="bookingForm.get('name')?.errors?.['required']">Name is required</div>
+                                    <div *ngIf="bookingForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</div>
+                                    <div *ngIf="bookingForm.get('name')?.errors?.['pattern']">Name can only contain letters and spaces</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" formControlName="email" required>
+                                <div *ngIf="bookingForm.get('email')?.invalid && bookingForm.get('email')?.touched" class="error-message">
+                                    <div *ngIf="bookingForm.get('email')?.errors?.['required']">Email is required</div>
+                                    <div *ngIf="bookingForm.get('email')?.errors?.['email']">Please enter a valid email address</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" formControlName="phone" required>
+                                <div *ngIf="bookingForm.get('phone')?.invalid && bookingForm.get('phone')?.touched" class="error-message">
+                                    <div *ngIf="bookingForm.get('phone')?.errors?.['required']">Phone number is required</div>
+                                    <div *ngIf="bookingForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="noOfGuest">Number of Guests *</label>
+                                 <input type="number" id="noOfGuest" formControlName="noOfGuest" required>
+                             
+                                <div *ngIf="bookingForm.get('noOfGuest')?.invalid && bookingForm.get('noOfGuest')?.touched" class="error-message">
+                                    Number of guests is required
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Date *</label>
+                                <input type="date" id="date" formControlName="date" required>
+                                <div *ngIf="bookingForm.get('date')?.invalid && bookingForm.get('date')?.touched" class="error-message">
+                                    Date is required
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time *</label>
+                                <input type="time" id="time" formControlName="time" required>
+                                <div *ngIf="bookingForm.get('time')?.invalid && bookingForm.get('time')?.touched" class="error-message">
+                                    Time is required
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="specialRequest">Special Requests</label>
+                            <textarea id="specialRequest" formControlName="specialRequest" rows="4" placeholder="Any special requirements or preferences..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn" [disabled]="bookingForm.invalid">Confirm Reservation</button>
+                    </form>
+                </div>
+                
+                <!-- Booking Information -->
+                <div class="booking-info">
+                    <h3 class="info-title">Reservation Details</h3>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Opening Hours</strong>
+                                <p>Monday - Friday: 7:00 AM - 10:00 PM</p>
+                                <p>Weekend: 8:00 AM - 11:00 PM</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-utensils"></i>
+                            <div>
+                                <strong>Dining Time</strong>
+                                <p>Lunch: 12:00 PM - 3:00 PM</p>
+                                <p>Dinner: 6:00 PM - 10:00 PM</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Group Bookings</strong>
+                                <p>For groups larger than 8 people, please call us directly</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Cancellation Policy</strong>
+                                <p>Please notify us at least 2 hours in advance if you need to cancel</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <div class="contact-info">
+                        <h3 class="info-title">Contact Us</h3>
+                        <p><i class="fas fa-phone"></i> (02) 1234 5678</p>
+                        <p><i class="fas fa-envelope"></i> reservations@urbancaferes.com.au</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Coffee Street, Sydney, NSW 2000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div *ngIf="showSuccessPopup" class="success-popup">
+    <div class="popup-content">
+        <div class="popup-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Booking Successful!</h3>
+        <p>Your table has been reserved successfully. We look forward to serving you!</p>
+    </div>
+</div>

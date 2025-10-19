@@ -10,10 +10,11 @@ import { Menu } from '../menu/menu';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ItemList } from './item-list/item-list';
+import { BookNow } from '../After Login/book-now/book-now';
 import { LoaderComponent } from '../loader/loader';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule,LoaderComponent ],
+  imports: [RouterOutlet,BeforeLoginComponent,AfterLoginComponent,NgxExtendedPdfViewerModule,Menu,ReactiveFormsModule,LoaderComponent,BookNow],
 
     
   templateUrl: './app.html',
