@@ -12,6 +12,7 @@ export const ApiEndpoints = {
     saveData:'Food/SaveData',
     updateData:'Food/updateData',
     delete:'Food/Delete?id=',
+    SaveBooking:'Booking/SaveBooking'
 
   
 };
