@@ -25,7 +25,7 @@
   <!-- src/app/dashboard/dashboard.component.html -->
 
 <div class="dashboard">
-  <div class="row" *ngFor="let candidate of employeeList">
+  <div class="row" *n="let candidate of employeeList">
     <div class="profile">
       <img [src]="'data:image/jpeg;base64,' + candidate.empImage" [alt]="candidate.firstName">
       <div class="info">

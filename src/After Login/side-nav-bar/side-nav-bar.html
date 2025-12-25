@@ -22,7 +22,15 @@
         <li><a (click)="this.navigateTo('/welcome/itemList')" routerLinkActive="active">items List</a></li>
       </ul>
     </li>
-
+   <li>
+      <div class="menu-item parent" (click)="toggleMenu('Booking')">
+        <i class="fas fa-users"></i> <span *ngIf="!collapsed">Booking</span>
+        <span class="arrow" *ngIf="!collapsed" [class.open]="openMenu === 'Booking'">▾</span>
+      </div>
+      <ul class="submenu" *ngIf="openMenu === 'Booking' && !collapsed">
+        <li><a (click)="this.navigateTo('/welcome/booking-list')">Booking List</a></li>
+      </ul>
+    </li>
     <!-- Recruiters -->
 
   </ul>

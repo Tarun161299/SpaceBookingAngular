@@ -12,7 +12,7 @@ export const ApiEndpoints = {
     saveData:'Food/SaveData',
     updateData:'Food/updateData',
     delete:'Food/Delete?id=',
-    SaveBooking:'Booking/SaveBooking'
-
+    SaveBooking:'Booking/SaveBooking',
+getBookings:'Booking/GetBookings?page='
   
 };

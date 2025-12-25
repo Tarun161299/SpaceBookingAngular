@@ -13,9 +13,13 @@ body {
 }
 
 .bookings-container {
+     height: 91vh;  
+      overflow-y: auto;     /* vertical scroll */
+    overflow-x: hidden;
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
+     scroll-behavior: smooth;
 }
 
 /* Header Styles */

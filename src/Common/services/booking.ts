@@ -22,8 +22,18 @@ export class Booking {
       'Authorization': 'Bearer YOUR_TOKEN_HERE' // replace with actual token if needed
     }); 
  }
+   private getHeadersToken(): HttpHeaders {
+     return new HttpHeaders({
+       'Content-Type': 'application/json',
+       'Authorization': `Bearer ${localStorage.getItem('token')}` // replace with actual token if needed
+     });
+   }
  SaveBooking(booking:BookingModel): Observable<any> {
     return this.http.post<any>(`${this.baseUrl+ApiEndpoints.SaveBooking}`, booking,{ headers: this.getHeaders() });
+    }
+
+     GetBookings(page:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl+ApiEndpoints.getBookings+page.toString()}`, { headers: this.getHeadersToken() });
     }
   
 }

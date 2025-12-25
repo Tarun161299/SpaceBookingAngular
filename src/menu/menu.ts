@@ -3,11 +3,12 @@ import { FoodService } from '../Common/services/food-Services';
 import { FoodData } from '../Model/FoodData';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LoaderService } from '../Common/services/loader-service';
 
+import { LoaderService } from '../Common/services/loader-service';
+import { MenuComponent } from '../Before Login/menuComponent/menu';
 @Component({
   selector: 'app-menu',
-  imports: [CommonModule],
+  imports: [CommonModule,MenuComponent],
   templateUrl: './menu.html',
   styleUrl: './menu.css'
 })
@@ -15,6 +16,7 @@ export class Menu {
   foodData:FoodData[]=[];
 constructor(private foodService:FoodService,private router: Router,private loaderService:LoaderService) {}
 ngOnInit(): void {
+  debugger
   // This code runs when the page/component loads
   console.log('Page loaded!');
   this.loaderService.show();

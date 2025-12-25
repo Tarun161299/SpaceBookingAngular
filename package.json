@@ -31,7 +31,7 @@
     "@angular/material": "^20.2.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
-    "@fortawesome/fontawesome-free": "^7.0.0",
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "ng2-pdf-viewer": "^10.4.0",
     "ngx-extended-pdf-viewer": "^25.0.0-alpha.2",
     "ngx-toastr": "^19.0.0",

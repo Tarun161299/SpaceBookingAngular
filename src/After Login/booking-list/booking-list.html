@@ -47,7 +47,7 @@
     </header>
 
     <!-- New Booking Notification -->
-    <div class="notification-popup" *ngIf="showNotification">
+    <div class="notification-popup" *ngIf="showNotification1">
         <div class="notification-content">
             <div class="notification-icon">
                 <i class="fas fa-bell"></i>
@@ -106,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <strong>John Smith</strong>
                         </td>
@@ -166,20 +166,22 @@
                         <td>3 people</td>
                         <td>Vegetarian options needed</td>
                     </tr>
-                    <tr>
+                     -->
+                    <tr *ngFor="let data of filteredBookings;let i = index">
+                      
                         <td>
-                            <strong>David Lee</strong>
+                            <strong>{{data.name}}</strong>
                         </td>
                         <td>
-                            <div>david.lee@email.com</div>
-                            <div class="text-muted">(02) 3456 7890</div>
+                            <div>{{data.email}}</div>
+                            <div class="text-muted">{{data.phone}}</div>
                         </td>
                         <td>
-                            <div>Thu, Jan 18, 2024</div>
-                            <div class="text-muted">6:00 PM</div>
+                            <div>{{data.date}}</div>
+                            <div class="text-muted">{{data.time}}</div>
                         </td>
-                        <td>5 people</td>
-                        <td>-</td>
+                        <td>{{data.noOfGuest}}</td>
+                        <td>{{data.specialRequest}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -195,18 +197,18 @@
         <!-- Pagination -->
         <div class="pagination-container">
             <div class="pagination-info">
-                Showing 1 to 5 of 5 entries
+                Showing {{from}} to {{to}} of {{totalPages}} entries
             </div>
             <div class="pagination-controls">
-                <button class="pagination-btn" disabled>
+                <button (click)="prevPage()" class="pagination-btn" [disabled]="prevdisabled">
                     <i class="fas fa-chevron-left"></i> Previous
                 </button>
                 
                 <div class="pagination-pages">
-                    <button class="page-btn active">1</button>
+                    <button class="page-btn active">{{currentPage}}</button>
                 </div>
                 
-                <button class="pagination-btn" disabled>
+                <button (click)="nextPage()" class="pagination-btn" [disabled]="nextdisabled">
                     Next <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
