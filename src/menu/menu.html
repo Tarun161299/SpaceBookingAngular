@@ -1,975 +1,1386 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gourmet Haven - Space Booking & Menu Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #c19a6b;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #27ae60;
-            --warning: #f39c12;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            color: #c19a6b;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color:    #2c3e50;
-        }
-        
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-        
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background:   #2c3e50;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background: #a57a52;
-        }
-        
-        .btn-success {
-            background:  #2c3e50;
-        }
-        
-        .btn-success:hover {
-            background: #219653;
-        }
-        
-        .btn-warning {
-            background: var(--warning);
-        }
-        
-        .btn-warning:hover {
-            background: #e67e22;
-        }
-        
-        .btn-danger {
-            background: var(--accent);
-        }
-        
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin: 3rem 0 2rem;
-            color: var(--dark);
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: var(--secondary);
-            margin: 10px auto;
-        }
-        
-        .spaces {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .space-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .space-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .space-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .space-content {
-            padding: 1.5rem;
-        }
-        
-        .space-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .space-content p {
-            margin-bottom: 1rem;
-            color: #666;
-        }
-        
-        .price {
-            font-weight: bold;
-            color: var(--secondary);
-            font-size: 1.2rem;
-        }
-        
-        .menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-        
-        .menu-item {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        .menu-img {
-            height: 180px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .menu-content {
-            padding: 1rem;
-        }
-        
-        .menu-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .menu-content p {
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .menu-price {
-            font-weight: bold;
-            color: var(--secondary);
-        }
-        
-        .admin-panel {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 4rem;
-        }
-        
-        .admin-controls {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .admin-form {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        .booking-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 4rem;
-        }
-        
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+<!-- menu.component.html -->
+ 
+<div class="restaurant-container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" [class.scrolled]="isScrolled">
+        <div class="container">
+             <a class="nav-brand" href="#" (click)="onNavClick('home', undefined, $event)">
+            <!-- Logo Image with text included -->
+            <img src="/assets/urbanvibeslogo.jpeg" 
+                 alt="Urban Vibes Cafe and Restaurant" 
+                 class="brand-logo-full">
+        </a>
             
-        }
-        
-        .footer-content p {
-            margin: 1rem 0;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .social-icons a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-        
-        .social-icons a:hover {
-            color: var(--secondary);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        
-        .modal h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .modal p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .close-modal {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .tab-container {
-            margin-top: 2rem;
-        }
-        
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid var(--secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .tab {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            background: #f5f5f5;
-            border-radius: 5px 5px 0 0;
-            margin-right: 0.5rem;
-        }
-        
-        .tab.active {
-            background: var(--secondary);
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .menu-item-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-        }
-        
-        .admin-menu-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .admin-controls {
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-<body>
-    
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Host Your Perfect Celebration</h1>
-            <p>Private dining spaces for parties and special occasions</p>
-            <a href="book-now" class="btn">Book Now</a>
-        </div>
-    </section>
-
-    <section id="spaces" class="container">
-        <h2 class="section-title">Our Spaces</h2>
-        <div class="spaces">
-            <div class="space-card">
-                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fDB8fHww');"></div>
-                <div class="space-content">
-                    <h3>Private Dining Room</h3>
-                    <p>Elegant space for up to 20 guests with personalized service</p>
-                    <p class="price">$250 booking fee</p>
-                    <button class="btn select-space" data-space="Private Dining Room" data-price="250">Select Space</button>
-                </div>
-            </div>
-            
-            <div class="space-card">
-                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJlc3RhdXJhbnQlMjBwYXRpb3xlbnwwfHwwfHx8MA%3D%3D');"></div>
-                <div class="space-content">
-                    <h3>Garden Patio</h3>
-                    <p>Beautiful outdoor space with natural surroundings for up to 30 guests</p>
-                    <p class="price">$350 booking fee</p>
-                    <button class="btn select-space" data-space="Garden Patio" data-price="350">Select Space</button>
-                </div>
-            </div>
-            
-            <div class="space-card">
-                <div class="space-img" style="background-image: url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJlc3RhdXJhbnQlMjBldmVudCUyMHNwYWNlfGVufDB8fDB8fHww');"></div>
-                <div class="space-content">
-                    <h3>Grand Hall</h3>
-                    <p>Spacious area for large gatherings and events up to 100 guests</p>
-                    <p class="price">$800 booking fee</p>
-                    <button class="btn select-space" data-space="Grand Hall" data-price="800">Select Space</button>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentPage === 'home'" 
+                           (click)="onNavClick('home', undefined, $event)">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentPage === 'menu'" 
+                           (click)="onNavClick('menu', undefined, $event)">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentPage === 'kids-menu'" 
+                           (click)="onNavClick('kids-menu', undefined, $event)">Kids Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentPage === 'about'" 
+                           (click)="onNavClick('about', undefined, $event)">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentPage === 'contact'" 
+                           (click)="onNavClick('contact', undefined, $event)">Contact</a>
+                    </li>
+                        <li class="nav-item">
+                        <a class="nav-link" 
+                           href="login">Login</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <section id="menu" class="container">
-        <h2 class="section-title">Our Menu</h2>
-        <div class="menu" id="menu-container">
-            <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Café Menu</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f5f0;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .menu-container {
-        display: grid
-;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-    }
-
-    .menu-item {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.2s ease-in-out;
-    }
-
-    .menu-item:hover {
-      transform: scale(1.05);
-    }
-
-    .menu-item img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .menu-item h3 {
-      margin: 10px 0;
-      font-size: 20px;
-      color: #4E342E; /* Mocha Brown */
-    }
-
-    .menu-item p {
-      margin: 5px 0;
-      color: #555;
-    }
-
-    .menu-item .price {
-      font-weight: bold;
-      font-size: 18px;
-      color: #800020; /* Royal Wine */
-    }
-  </style>
-</head>
-<body>
-
-  <!-- <div class="menu-container">
-    <div class="menu-item" *ngFor="let data of foodData">
-      <img [src]="'data:image/jpeg;base64,' + data.fileBase64String" alt=" data.foodDescription">
-      <h3>{{data.foodDescription}}</h3>
-      <p>{{data.category}}</p>
-      <p>Quantity: {{data.quantity}}</p>
-      <p class="price">{{data.rate}}</p>
-    </div>
-
-   
-  </div> -->
-
-</body>
-</html>
-
-        </div>
-        <app-menucom></app-menucom>
-    </section>
-
-    
-
-    <div id="success-modal" class="modal">
-        <div class="modal-content">
-            <h2>Booking Request Received!</h2>
-            <p>Thank you for your interest in booking with us. We have received your request and will contact you within 24 hours to confirm your reservation and discuss details.</p>
-            <p>Please note: Payment will be made at the restaurant on the day of your event.</p>
-            <button class="close-modal">Close</button>
-        </div>
-    </div>
-
-    
-
-    <script>
-        // Data storage
-        let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [
-            {
-                id: 1,
-                name: "Bruschetta Platter",
-                category: "appetizers",
-                price: 12.99,
-                image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D",
-                description: "Selection of bruschetta with tomatoes, mushrooms, and herbs"
-            },
-            {
-                id: 2,
-                name: "Grilled Salmon",
-                category: "main",
-                price: 24.99,
-                image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1haW4lMjBjb3Vyc2V8ZW58MHx8MHx8fDA%3D",
-                description: "Fresh salmon fillet with lemon butter sauce and seasonal vegetables"
-            },
-            {
-                id: 3,
-                name: "Chocolate Lava Cake",
-                category: "desserts",
-                price: 8.99,
-                image: "https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGRlc3NlcnR8ZW58MHx8MHx8fDA%3D",
-                description: "Warm chocolate cake with a molten center, served with vanilla ice cream"
-            }
-        ];
+    <!-- Page Content Container -->
+    <div id="page-container">
         
-        let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-        let currentDishId = null;
-
-        // Initialize the application
-        function init() {
-            // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('date').setAttribute('min', today);
-            
-            // Load menu items
-            loadMenuItems();
-            loadAdminMenuItems();
-            loadBookings();
-            
-            // Set up event listeners
-            setupEventListeners();
-        }
-
-        // Set up all event listeners
-        function setupEventListeners() {
-            // Space selection
-            const selectButtons = document.querySelectorAll('.select-space');
-            const spaceInput = document.getElementById('space');
-            const priceInput = document.getElementById('price');
-            
-            selectButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const space = button.getAttribute('data-space');
-                    const price = button.getAttribute('data-price');
-                    
-                    spaceInput.value = space;
-                    priceInput.value = `$${price}`;
-                    
-                    // Scroll to booking form
-                    document.getElementById('booking').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-            
-            // Form submission
-            const form = document.getElementById('reservation-form');
-            const modal = document.getElementById('success-modal');
-            const closeModal = document.querySelector('.close-modal');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Create booking object
-                const booking = {
-                    id: Date.now(),
-                    space: document.getElementById('space').value,
-                    price: document.getElementById('price').value,
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    guests: document.getElementById('guests').value,
-                    date: document.getElementById('date').value,
-                    time: document.getElementById('time').value,
-                    message: document.getElementById('message').value,
-                    status: 'Pending',
-                    timestamp: new Date().toLocaleString()
-                };
-                
-                // Save booking
-                bookings.push(booking);
-                localStorage.setItem('bookings', JSON.stringify(bookings));
-                
-                // Show success message
-                modal.style.display = 'flex';
-                
-                // Reload bookings
-                loadBookings();
-            });
-            
-            closeModal.addEventListener('click', function() {
-                modal.style.display = 'none';
-                form.reset();
-            });
-            
-            // Close modal if clicked outside
-            window.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    form.reset();
-                }
-            });
-            
-            // Tab switching
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-                    // Add active class to clicked tab
-                    tab.classList.add('active');
-                    
-                    // Hide all tab content
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Show the selected tab content
-                    const tabId = tab.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Dish form handling
-            document.getElementById('add-dish-btn').addEventListener('click', showDishForm);
-            document.getElementById('cancel-dish-btn').addEventListener('click', hideDishForm);
-            document.getElementById('menu-item-form').addEventListener('submit', saveDish);
-            
-            // Export/Import buttons
-            document.getElementById('export-menu-btn').addEventListener('click', exportMenu);
-            document.getElementById('import-menu-btn').addEventListener('click', triggerImport);
-        }
-
-        // Load menu items for customers
-        function loadMenuItems() {
-            const menuContainer = document.getElementById('menu-container');
-            menuContainer.innerHTML = '';
-            
-            if (menuItems.length === 0) {
-                menuContainer.innerHTML = '<p class="no-items">No menu items available. Please check back later.</p>';
-                return;
-            }
-            
-            menuItems.forEach(item => {
-                const menuItem = document.createElement('div');
-                menuItem.className = 'menu-item';
-                menuItem.innerHTML = `
-                    <div class="menu-img" style="background-image: url('${item.image}')"></div>
-                    <div class="menu-content">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <p class="menu-price">$${item.price.toFixed(2)}</p>
-                    </div>
-                `;
-                menuContainer.appendChild(menuItem);
-            });
-        }
-
-        // Load menu items for admin
-        function loadAdminMenuItems() {
-            const adminMenuList = document.getElementById('admin-menu-list');
-            adminMenuList.innerHTML = '';
-            
-            if (menuItems.length === 0) {
-                adminMenuList.innerHTML = '<p class="no-items">No menu items added yet.</p>';
-                return;
-            }
-            
-            menuItems.forEach(item => {
-                const menuItem = document.createElement('div');
-                menuItem.className = 'menu-item';
-                menuItem.innerHTML = `
-                    <div class="menu-img" style="background-image: url('${item.image}')"></div>
-                    <div class="menu-content">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <p class="menu-price">$${item.price.toFixed(2)}</p>
-                        <div class="menu-item-actions">
-                            <button class="btn btn-warning edit-dish" data-id="${item.id}">Edit</button>
-                            <button class="btn btn-danger delete-dish" data-id="${item.id}">Delete</button>
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page" [class.active]="currentPage === 'home'">
+            <!-- Hero Section -->
+            <section id="home" class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Urban Cafe Restaurant</h1>
+                        <p class="hero-subtitle">Modern dining with exceptional flavors in the heart of the city</p>
+                        
+                        <div class="hero-hours" [ngClass]="{'open': isOpenNow, 'closed': !isOpenNow}">
+                            <i class="fas fa-clock"></i>
+                            <span *ngIf="isOpenNow">Open Now: 7:00 AM - 5:00 PM</span>
+                            <span *ngIf="!isOpenNow">Closed Now • Open: 7:00 AM - 5:00 PM</span>
+                        </div>
+                        
+                        <div class="hero-buttons">
+                            <a href="#" class="btn-hero btn-hero-primary" (click)="onNavClick('menu', undefined, $event)">
+                                <i class="fas fa-utensils me-2"></i> View Complete Menu
+                            </a>
+                            <button class="btn-hero btn-hero-secondary" (click)="openBookingModal()">
+                                <i class="fas fa-calendar-check me-2"></i> Book a Table
+                            </button>
                         </div>
                     </div>
-                `;
-                adminMenuList.appendChild(menuItem);
-            });
-            
-            // Add event listeners to edit and delete buttons
-            document.querySelectorAll('.edit-dish').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.getAttribute('data-id'));
-                    editDish(id);
-                });
-            });
-            
-            document.querySelectorAll('.delete-dish').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.getAttribute('data-id'));
-                    deleteDish(id);
-                });
-            });
-        }
+                </div>
+                
+                <!-- Drink Icon -->
+                <div class="drink-icon-container">
+                    <a href="#" class="drink-icon-link" (click)="onNavClick('menu', 'cold-drinks', $event)">
+                        <div class="drink-icon">
+                            <i class="fas fa-glass-whiskey"></i>
+                        </div>
+                        <div class="drink-icon-text">Drinks Menu</div>
+                    </a>
+                </div>
+            </section>
 
-        // Load bookings for admin
-        function loadBookings() {
-            const bookingsList = document.getElementById('bookings-list');
-            bookingsList.innerHTML = '';
-            
-            if (bookings.length === 0) {
-                bookingsList.innerHTML = '<p class="no-items">No booking requests yet.</p>';
-                return;
-            }
-            
-            bookings.forEach(booking => {
-                const bookingItem = document.createElement('div');
-                bookingItem.className = 'booking-item';
-                bookingItem.innerHTML = `
-                    <div class="booking-content">
-                        <h4>${booking.space} - ${booking.date} at ${booking.time}</h4>
-                        <p><strong>Name:</strong> ${booking.name}</p>
-                        <p><strong>Contact:</strong> ${booking.email}, ${booking.phone}</p>
-                        <p><strong>Guests:</strong> ${booking.guests}</p>
-                        <p><strong>Status:</strong> ${booking.status}</p>
-                        <p><strong>Received:</strong> ${booking.timestamp}</p>
-                        ${booking.message ? `<p><strong>Special Requests:</strong> ${booking.message}</p>` : ''}
+            <!-- Menu Category Gallery Section -->
+            <section id="menu-gallery" class="menu-gallery-section">
+                <div class="container">
+                    <h2 class="section-title">Our Menu Categories</h2>
+                    <p class="text-center lead mb-5">Click on any category to view its menu items</p>
+                    
+                    <div class="menu-category-gallery">
+                        <!-- Breakfast Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'breakfast', $event)">
+                                <img src="/assets/BreakFast.jpeg" 
+                                     alt="Breakfast" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Breakfast</h3>
+                                    <p class="menu-category-items">Big Urban Breakfast • Eggs Benedict • Waffles • Vegan Bowl</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Lunch Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'lunch', $event)">
+                                <img src="/assets/Lunch.jpeg" 
+                                     alt="Lunch" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Lunch</h3>
+                                    <p class="menu-category-items">Burgers • Tacos • Sandwiches • Chicken Parmigiana</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Pasta & Salads Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'pasta-salads', $event)">
+                                <img src="/assets/Pastasalad.jpeg" 
+                                     alt="Pasta & Salads" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Pasta & Salads</h3>
+                                    <p class="menu-category-items">Classic Bolognese • Chicken Pesto • Garlic Prawn • Fresh Salads</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Hot Coffee Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'hot-coffee', $event)">
+                                <img src="/assets/HotCoffee.jpeg" 
+                                     alt="Hot Coffee" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Hot Coffee</h3>
+                                    <p class="menu-category-items">Cappuccino • Latte • Mocha • Specialty Lattes • Hot Chocolate</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Cold Drinks Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'cold-drinks', $event)">
+                                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80" 
+                                     alt="Cold Drinks" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Cold Drinks</h3>
+                                    <p class="menu-category-items">Iced Coffee • Frappes • Fresh Juices • Smoothies</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- More Breakfast Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('menu', 'more-breakfast', $event)">
+                                <img src="/assets/MoreBreakFast.jpeg" 
+                                     alt="More Breakfast" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">More Breakfast</h3>
+                                    <p class="menu-category-items">Fritters • Breakfast Roll • Bruschetta • Rösti • Granola</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Kids Menu Category -->
+                        <div class="menu-category-card">
+                            <a href="#" class="card-link" (click)="onNavClick('kids-menu', undefined, $event)">
+                                <img src="/assets/kidsMenu.jpeg" 
+                                     alt="Kids Menu" class="menu-category-image">
+                                <div class="menu-category-overlay">
+                                    <h3 class="menu-category-title">Kids Menu</h3>
+                                    <p class="menu-category-items">Burgers • Pizza • Fun Box • Breakfast • Special Treats</p>
+                                    <div class="menu-category-cta">
+                                        View Menu <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Gelato & Ice Cream Category -->
+<div class="menu-category-card">
+    <a href="#" class="card-link" (click)="onNavClick('menu', 'gelato-icecream', $event)">
+        <img src="/assets/icecream.jpeg" 
+             alt="Gelato & Ice Cream" class="menu-category-image">
+        <div class="menu-category-overlay">
+            <h3 class="menu-category-title">Gelato & Ice Cream</h3>
+            <p class="menu-category-items">15+ Flavors • Classic & Premium • Sundae Specials</p>
+            <div class="menu-category-cta">
+                View Menu <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+    </a>
+</div>
                     </div>
-                `;
-                bookingsList.appendChild(bookingItem);
-            });
-        }
+                </div>
+            </section>
 
-        // Show dish form
-        function showDishForm() {
-            document.getElementById('dish-form').style.display = 'block';
-            document.getElementById('add-dish-btn').style.display = 'none';
-        }
+            <!-- About Section -->
+            <section id="about" class="about-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="about-image">
+                                <img src="/assets/aboutSection.jpeg" 
+                                     class="img-fluid" alt="Urban Cafe Interior">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="about-text">
+                                <h2 class="section-title-left">Our Story</h2>
+                                <p class="lead mb-4">Urban Cafe Restaurant is the culmination of our passion for exceptional flavors and our desire to create a welcoming, modern dining experience.</p>
+                               <p> We offer a curated selection of local wines, beers, handcrafted cocktails, fresh juices, and our own-brand coffee and gelato, delivering quality in every cup and scoop.</p>
+                               <p>For those on the go, we prepare fresh sandwiches and wraps daily, perfect for quick, convenient grab-and-go meals without compromising on freshness or flavour.</p>
+                               <p>We proudly cater for all dietary needs, including gluten-free, coeliac-friendly, dairy-free, nut-free, and vegan options, ensuring everyone feels welcome.</p>
+                               <p>Every day, our kitchen bakes fresh cakes, muffins, and slices, made in-house for the perfect sweet treat.</p>
+                               <p>Urban Vibes Café — fresh food, inclusive choices, and great vibes, every day. ☕🥪🍰</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        // Hide dish form
-        function hideDishForm() {
-            document.getElementById('dish-form').style.display = 'none';
-            document.getElementById('add-dish-btn').style.display = 'block';
-            document.getElementById('menu-item-form').reset();
-            currentDishId = null;
-        }
+            <!-- Footer -->
+        <footer id="contact" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-5">
+                <h3 class="mb-4">Urban Cafe Restaurant</h3>
+                <p>Modern dining with exceptional flavors in the heart of the city. Open daily from 7:00 AM to 5:00 PM.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-tripadvisor"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-5">
+                <h5 class="mb-4">Quick Links</h5>
+                <div class="footer-links">
+                    <a (click)="onNavClick('home', undefined, $event)">Home</a>
+                    <a (click)="onNavClick('menu', undefined, $event)">Menu</a>
+                    <a (click)="onNavClick('kids-menu', undefined, $event)">Kids Menu</a>
+                    <a (click)="onNavClick('about', undefined, $event)">About</a>
+                    <a (click)="onNavClick('contact', undefined, $event)">Contact</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mb-5">
+                <h5 class="mb-4">Contact</h5>
+                <div class="footer-links">
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Shop 34,Armada Bathurst,121 Howick Street,Bathurst NSW 2795</p>
+                    <p><i class="fas fa-phone me-2"></i> (306) 715-19903</p>
+                    <p><i class="fas fa-envelope me-2"></i> sunny@urbancaferes.com.au</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mb-5">
+                <h5 class="mb-4">Hours</h5>
+                <div class="footer-links">
+                    <p><strong>Monday - Sunday</strong></p>
+                    <p>7:00 AM - 5:00 PM</p>
+                    <p class="mt-3">Kitchen closes at 4:30 PM</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright and Developer Credit -->
+        <div class="row mt-5 pt-4 border-top border-secondary">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <div class="footer-copyright">
+                    <p class="mb-0">© <span id="currentYear"></span> Urban Cafe Restaurant. All rights reserved.</p>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="developer-credit">
+                    <p class="mb-0">
+                        Website designed and developed by 
+                        <a href="https://www.pacecrafttechnologies.com" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="developer-link">
+                            Pace Craft Technologies
+                        </a>
+                        <span class="developer-theme"> - where speed meets skills</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+        </div>
 
-        // Save dish (add or edit)
-        function saveDish(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('dish-name').value;
-            const category = document.getElementById('dish-category').value;
-            const price = parseFloat(document.getElementById('dish-price').value);
-            const image = document.getElementById('dish-image').value;
-            const description = document.getElementById('dish-description').value;
-            
-            if (currentDishId) {
-                // Edit existing dish
-                const index = menuItems.findIndex(item => item.id === currentDishId);
-                if (index !== -1) {
-                    menuItems[index] = {
-                        id: currentDishId,
-                        name,
-                        category,
-                        price,
-                        image,
-                        description
-                    };
-                }
-            } else {
-                // Add new dish
-                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(item => item.id)) + 1 : 1;
-                menuItems.push({
-                    id: newId,
-                    name,
-                    category,
-                    price,
-                    image,
-                    description
-                });
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('menuItems', JSON.stringify(menuItems));
-            
-            // Reload menus
-            loadMenuItems();
-            loadAdminMenuItems();
-            
-            // Hide form
-            hideDishForm();
-        }
+        <!-- MENU PAGE -->
+        <div id="menu-page" class="page" [class.active]="currentPage === 'menu'">
+            <section class="menu-page-section">
+                <div class="menu-container">
+                    <a href="#" class="back-btn" (click)="onNavClick('home', undefined, $event)">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    
+                    <div class="menu-header">
+                        <h1>URBAN CAFE</h1>
+                        <p>BREAKFAST • LUNCH • COFFEE • SMOOTHIES</p>
+                        <div class="menu-hours">Open Daily: 7:00 AM - 5:00 PM |  Shop 34,Armada Bathurst,121 Howick Street,Bathurst NSW 2795</div>
+                    </div>
 
-        // Edit dish
-        function editDish(id) {
-            const dish = menuItems.find(item => item.id === id);
-            if (dish) {
-                document.getElementById('dish-id').value = dish.id;
-                document.getElementById('dish-name').value = dish.name;
-                document.getElementById('dish-category').value = dish.category;
-                document.getElementById('dish-price').value = dish.price;
-                document.getElementById('dish-image').value = dish.image;
-                document.getElementById('dish-description').value = dish.description;
+                    <!-- Category Tabs -->
+                    <div class="menu-category-tabs">
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'all'" 
+                           (click)="onCategoryClick('all', $event)">
+                            <i class="fas fa-th-large"></i> All Menu
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'breakfast'" 
+                           (click)="onCategoryClick('breakfast', $event)">
+                            <i class="fas fa-egg"></i> Breakfast
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'lunch'" 
+                           (click)="onCategoryClick('lunch', $event)">
+                            <i class="fas fa-hamburger"></i> Lunch
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'pasta-salads'" 
+                           (click)="onCategoryClick('pasta-salads', $event)">
+                            <i class="fas fa-utensils"></i> Pasta & Salads
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'hot-coffee'" 
+                           (click)="onCategoryClick('hot-coffee', $event)">
+                            <i class="fas fa-coffee"></i> Hot Coffee
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'cold-drinks'" 
+                           (click)="onCategoryClick('cold-drinks', $event)">
+                            <i class="fas fa-glass-whiskey"></i> Cold Drinks
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'more-breakfast'" 
+                           (click)="onCategoryClick('more-breakfast', $event)">
+                            <i class="fas fa-bacon"></i> More Breakfast
+                        </a>
+                        <a href="#" class="category-tab" [class.active]="currentCategory === 'gelato-icecream'" 
+   (click)="onCategoryClick('gelato-icecream', $event)">
+    <i class="fas fa-ice-cream"></i> Gelato & Ice Cream
+</a>
+                    </div>
+
+                    <div class="menu-columns">
+                        
+                        <!-- BREAKFAST MAIN -->
+                        <div class="menu-category visible" id="breakfast" data-categories="breakfast,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'breakfast'">
+                            <h2>BREAKFAST</h2>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Big Urban Breakfast</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Two eggs your way, bacon, local sausage, chorizo, grilled herb tomato, hash brown, mushrooms, halloumi & sourdough toast
+                                </div>
+                                <div class="menu-dietary">GF / VEG / Vegan option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Eggs Benedict</span><span class="menu-price">$16</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Poached eggs on Turkish bread with baby spinach & house-made hollandaise
+                                </div>
+                                <div class="menu-small-print">Add Bacon $5 | Hash Brown $3 | Smoked Salmon $7</div>
+                                <div class="menu-dietary">GF / VEG</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Waffles / Pancakes</span><span class="menu-price">$19</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Fluffy stack with maple syrup, seasonal berries & vanilla cream
+                                </div>
+                                <div class="menu-dietary">VEG</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Vegan Brekkie Bowl</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Grilled tofu, roasted vegetables, quinoa, avocado & hummus
+                                </div>
+                                <div class="menu-dietary">GF / Vegan</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Smashed Avo & Feta Toast</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Smashed avocado, smoked salmon, crumbled feta, poached egg & Hollandaise sauce
+                                </div>
+                                <div class="menu-dietary">GF / VEG option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Spanish Omelette</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Local chorizo, bacon, ham, mushrooms, tomato, Persian feta & mozzarella. Served with sourdough or Turkish bread
+                                </div>
+                                <div class="menu-dietary">GF / VEG option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Breakfast Burrito</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Local chorizo, bacon, Spanish onion, scrambled eggs & mozzarella wrapped in a warm tortilla
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MORE BREAKFAST -->
+                        <div class="menu-category visible" id="more-breakfast" data-categories="more-breakfast,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'more-breakfast'">
+                            <div class="menu-section-title">MORE BREAKFAST</div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Corn & Zucchini Fritters</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Three golden fritters with avocado, crispy prosciutto, poached egg & house-made chili jam
+                                </div>
+                                <div class="menu-dietary">GF / VEG option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Breakfast Roll</span><span class="menu-price">$14</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Bacon & egg on Turkish bread with house-made tomato relish
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Brekkie Bruschetta</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Grilled tomato & onion, poached eggs, pesto sourdough & balsamic drizzle
+                                </div>
+                                <div class="menu-dietary">GF option / VEG</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Mushroom Steak</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Grilled flat mushroom, sun-dried tomato, Persian feta, hash brown, poached egg, pesto sourdough & house hollandaise
+                                </div>
+                                <div class="menu-dietary">GF option / VEG / Vegan option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Sweet Potato Rösti</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Crispy sweet potato rosti with chorizo, halloumi, poached egg & drizzled hollandaise
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Granola</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    House-made toasted oats with mixed nuts and seeds, lightly sweetened and baked until golden. Served with creamy yoghurt and seasonal fresh fruit.
+                                </div>
+                            </div>
+
+                            <div class="menu-small-print" style="margin-top: 15px;">
+                                <strong>Breakfast Add-ons:</strong> Hash brown $3 | Avocado $4 | Mushrooms $4 | Hollandaise $3<br>
+                                <strong>With the lot – $22</strong>
+                            </div>
+                        </div>
+
+                        <!-- LUNCH BURGERS & TACOS -->
+                        <div class="menu-category visible" id="lunch" data-categories="lunch,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'lunch'">
+                            <h2>LUNCH</h2>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Pulled Pork Burger</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Slow-cooked pulled pork, house apple slaw, BBQ sauce. Served with fries
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Falafel Burger</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Crispy falafel, avocado, lettuce, tomato & vegan aioli. Served with chips
+                                </div>
+                                <div class="menu-dietary">GF option / VEG / Vegan</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Chicken Schnitzel Burger</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Crispy chicken schnitzel, lettuce, tomato, cheese & aioli
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Beef Burger</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Double beef patty, tasty cheese, lettuce, tomato, beetroot, bacon & fried egg. Served with fries & aioli
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Steak Sandwich</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Grilled scotch fillet, caramelized onion, tomato, lettuce, beetroot & cheese. Served on Turkish bread with BBQ sauce & fries
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Chicken Parmigiana</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Crispy schnitzel topped with Napoli sauce, Ham slice & melted cheese. Served with fresh Greek salad
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Pulled Pork Tacos</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Slow-cooked pulled pork, apple slaw, avocado & smoky BBQ sauce. Served with chips
+                                </div>
+                                <div class="menu-dietary">GF option</div>
+                            </div>
+                        </div>
+
+                        <!-- PASTA & SALADS -->
+                        <div class="menu-category visible" id="pasta-salads" data-categories="pasta-salads,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'pasta-salads'">
+                            <div class="menu-section-title">PASTA & SALADS</div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Classic Bolognese</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Linguine with rich beef & tomato ragu, parmesan & herbs
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Chicken Pesto Pasta</span><span class="menu-price">$24</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Linguine with grilled chicken, pesto, cherry tomatoes & parmesan
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Garlic Prawn Pasta</span><span class="menu-price">$27</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Linguine with garlic prawns, white wine, olive oil, chilli & parsley
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Creamy Mushroom & Spinach Pasta</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Linguine with creamy mushrooms sauce, spinach finish with parmesan cheese
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Grilled Salmon & Avocado Salad</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Pan-seared salmon with avocado, mango salad & pesto drizzle
+                                </div>
+                                <div class="menu-dietary">GF</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Classic Loaded Beef Nachos</span><span class="menu-price">$26</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Tortilla chips topped with seasoned beef & melted cheese. Served with sour cream & fresh coriander
+                                </div>
+                                <div class="menu-dietary">GF</div>
+                            </div>
+
+                            <div class="menu-item">
+                                <div class="menu-item-title">
+                                    <span>Chicken Quesadillas</span><span class="menu-price">$22</span>
+                                </div>
+                                <div class="menu-item-desc">
+                                    Tomato, onion, capsicum, avocado & mozzarella. Served with aioli & chips
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HOT DRINKS -->
+                        <div class="menu-category visible" id="hot-coffee" data-categories="hot-coffee,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'hot-coffee'">
+                            <h2>HOT COFFEES</h2>
+
+                            <div class="menu-drink-grid">
+                                <div class="menu-drink-row">
+                                    <div>Small / Regular / Large</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Cappuccino</div>
+                                    <div>$5 / 6 / 6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Flat White</div>
+                                    <div>$5 / 6 / 6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Latte</div>
+                                    <div>$5 / 6 / 6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Mocha</div>
+                                    <div>$6 / 6.5 / 7</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>White Mocha</div>
+                                    <div>$6 / 6.5 / 7</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Long Black</div>
+                                    <div>$5 / 6 / 6.5</div>
+                                </div>
+                            </div>
+
+                            <div class="menu-small-print">
+                                Sizes: Small / Regular / Large<br>
+                                Espresso / Macchiato / Piccolo / Affogato: $4.5
+                            </div>
+
+                            <div class="menu-section-title" style="margin-top: 25px;">SPECIALTY LATTES</div>
+
+                            <div class="menu-drink-grid">
+                                <div class="menu-drink-row">
+                                    <div>Dirty Chai Latte</div>
+                                    <div>$6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Matcha Latte</div>
+                                    <div>$6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Turmeric Latte</div>
+                                    <div>$6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Hot Chocolate</div>
+                                    <div>$6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>White Hot Chocolate</div>
+                                    <div>$6.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Babyccino</div>
+                                    <div>$3.5</div>
+                                </div>
+                            </div>
+
+                            <div class="menu-small-print">
+                                <strong>Milk Options:</strong> Full cream, skim, oat, almond, soy (+$1)<br>
+                                <strong>Extras & Flavours (+$1 each):</strong> Extra shot • Decaf • Syrups • Marshmallows • Whipped cream
+                            </div>
+                        </div>
+
+                        <!-- COLD DRINKS -->
+                        <div class="menu-category visible" id="cold-drinks" data-categories="cold-drinks,all"
+                             [class.visible]="currentCategory === 'all' || currentCategory === 'cold-drinks'">
+                            <h2>COLD DRINKS</h2>
+
+                            <div class="menu-section-title">ICED DRINKS</div>
+                            <div class="menu-drink-grid">
+                                <div class="menu-drink-row">
+                                    <div>Iced Latte</div>
+                                    <div>$8.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Iced Long Black</div>
+                                    <div>$9.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Iced Mocha</div>
+                                    <div>$9.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Iced White Mocha</div>
+                                    <div>$9.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Iced Coffee</div>
+                                    <div>$9.5</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Iced Chocolate</div>
+                                    <div>$9.5</div>
+                                </div>
+                            </div>
+
+                            <div class="menu-section-title" style="margin-top: 20px;">FRAPPES ($11)</div>
+                            <div class="menu-item-desc" style="font-size: 12px;">
+                                (Blended icy drinks with milk, ice cream & flavour syrup)
+                            </div>
+                            <div class="menu-drink-grid">
+                                <div class="menu-drink-row">
+                                    <div>Coffee Frappe</div>
+                                    <div>$11</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Mocha Frappe</div>
+                                    <div>$11</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Caramel Frappe</div>
+                                    <div>$11</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Cookies & Cream</div>
+                                    <div>$11</div>
+                                </div>
+                                <div class="menu-drink-row">
+                                    <div>Tim Tam Frappe</div>
+                                    <div>$11</div>
+                                </div>
+                            </div>
+
+                            <div class="menu-section-title" style="margin-top: 20px;">FRESH JUICES ($10.5)</div>
+                            <div class="menu-item-desc" style="font-size: 12px;">
+                                Orange Sunshine • Watermelon Mint Cooler • Tropical Twist • Green Glow • Apple Zing • Carrot Cleanse • Sunset Splash • Citrus Refresher • Berry Breeze • Summer Detox
+                            </div>
+
+                            <div class="menu-section-title" style="margin-top: 20px;">SMOOTHIES ($10.5)</div>
+                            <div class="menu-item-desc" style="font-size: 12px;">
+                                Açai Smoothie • Berry Blast • Mango Passion • Banana Honey • Green Power
+                            </div>
+                        </div>
+<!-- GELATO & ICE CREAM -->
+<div class="menu-category visible" id="gelato-icecream" data-categories="gelato-icecream,all"
+     [class.visible]="currentCategory === 'all' || currentCategory === 'gelato-icecream'">
+    <h2>GELATO & ICE CREAM</h2>
+
+    <div class="menu-section-title" style="margin-top: 15px; color: #e91e63;">Classic Flavors</div>
+    
+    <div class="menu-drink-grid" style="margin-top: 10px;">
+        <div class="menu-drink-row">
+            <div>Vanilla</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Chocolate</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Strawberry Cheesecake</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Salted Caramel</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Mango</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Cookies & Cream</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+    </div>
+
+    <div class="menu-section-title" style="margin-top: 25px; color: #2196f3;">Premium Flavors</div>
+    
+    <div class="menu-drink-grid" style="margin-top: 10px;">
+        <div class="menu-drink-row">
+            <div>Biscoff</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Salted Pistachio</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Honey Comb</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Milo</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Tim Tam</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Lemon Meringue</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+    </div>
+
+    <div class="menu-section-title" style="margin-top: 25px; color: #9c27b0;">Special Flavors</div>
+    
+    <div class="menu-drink-grid" style="margin-top: 10px;">
+        <div class="menu-drink-row">
+            <div>Rainbow</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Bubble Gum</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+        <div class="menu-drink-row">
+            <div>Rocky Road</div>
+            <div>One Scoop $5.5 / Two Scoops $7.5</div>
+        </div>
+    </div>
+
+    <div class="menu-small-print" style="margin-top: 25px;">
+        <strong>Available:</strong> Single Scoop • Double Scoop • Waffle Cone • Cup<br>
+        <strong>Extras:</strong> Sprinkles (+$0.50) • Chocolate Sauce (+$1) • Caramel Sauce (+$1)<br>
+        <strong>Add to Desserts:</strong> Available as add-on to any dessert for $4.5
+    </div>
+
+    <div class="menu-item" style="margin-top: 30px; background: #fff9e6; padding: 15px; border-radius: 8px; border: 1px dashed #ff9800;">
+        <div class="menu-item-title">
+            <span>Ice Cream Sundae Special</span><span class="menu-price">$12.5</span>
+        </div>
+        <div class="menu-item-desc">
+            Two scoops of your choice, topped with chocolate sauce, whipped cream, nuts, and a cherry
+        </div>
+        <div class="menu-dietary">VEG</div>
+    </div>
+</div>
+                    </div> <!-- End of menu-columns -->
+
+                    <div class="menu-note">
+                        Please advise our staff of any food allergies or intolerances upon ordering.
+                        Some dishes may be made vegan or gluten-free upon request.
+                        All food prepared fresh to order. Kitchen closes 30 minutes before closing.
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- KIDS MENU PAGE -->
+        <div id="kids-menu-page" class="page" [class.active]="currentPage === 'kids-menu'">
+            <section class="kids-menu-page">
+                <div class="kids-menu-container">
+                    <a href="#" class="back-btn" (click)="onNavClick('home', undefined, $event)">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    
+                    <div class="kids-menu-wrapper">
+                        <!-- PAGE 1 : COVER -->
+                        <section class="kids-menu-card kids-cover">
+                            <h1 class="kids-title">
+                                <span>K</span><span>i</span><span>d</span><span>s</span>
+                            </h1>
+                            <h2 class="kids-menu-sub">MENU</h2>
+
+                            <div class="kids-illustration">
+                                <p>👩‍🍳 👦 👧</p>
+                            </div>
+                        </section>
+
+                        <!-- PAGE 2 : KIDS MEALS -->
+                        <section class="kids-menu-card">
+                            <h2 class="kids-section-title">Kids Meals</h2>
+
+                            <div class="kids-item">
+                                <h3>Kids Big Beef Burger <span class="menu-price">$16.50</span></h3>
+                                <p>Housemade Beef Patty, Lettuce, Tomato, Beetroot & Cheese<br>
+                                    Served With Chips & Tomato Sauce<br>
+                                    <small>(GF Option Available)</small>
+                                </p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Chicken, Bacon & Cheese Burger <span class="menu-price">$16.50</span></h3>
+                                <p>Chicken Patty, Bacon & Cheese<br>
+                                    Served With Chips & Tomato Sauce
+                                </p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Chicken Tenders <span class="menu-price">$14.00</span></h3>
+                                <p>Crumbed Chicken Tenders, Chips & Tomato Sauce</p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Fish & Chips <span class="menu-price">$16.00</span></h3>
+                                <p>Battered Flathead With Chips & Tomato Sauce</p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Mini Pizzas</h3>
+                                <ul>
+                                    <li>Ham, Pineapple & Cheese — <span class="menu-price">$11.50</span></li>
+                                    <li>Chicken, Bacon & Cheese — <span class="menu-price">$11.50</span></li>
+                                    <li>Cheese — <span class="menu-price">$9.50</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Loaded Chips <span class="menu-price">$14.50</span></h3>
+                                <p>Mozzarella Cheese & Bacon<br>
+                                    Tomato or BBQ Sauce<br>
+                                    <small>(GF & Veg Option Available)</small>
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- PAGE 3 : BREAKFAST + LUNCH -->
+                        <section class="kids-menu-card">
+                            <h2 class="kids-section-title pink">All Day Breakfast</h2>
+
+                            <div class="kids-item">
+                                <h3>Kids Eggs Your Way <span class="menu-price">$12.00</span></h3>
+                                <p>Scrambled / Fried / Poached on Toast<br>
+                                    Add-ons: Bacon $4, Sausage $2.50<br>
+                                    <small>(GF & Veg Options)</small>
+                                </p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Pancakes / Waffle Stack <span class="menu-price">$16.50</span></h3>
+                                <p>
+                                    Nutella, Banana & Ice Cream<br>
+                                    Strawberries, Ice Cream & Maple Syrup
+                                </p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Bacon & Egg Roll <span class="menu-price">$10.50</span></h3>
+                                <p>Fried Egg & Bacon With Tomato Sauce</p>
+                            </div>
+
+                            <div class="kids-item">
+                                <h3>Kids Burrito <span class="menu-price">$15.00</span></h3>
+                                <p>Bacon, Egg & Mozzarella Cheese</p>
+                            </div>
+
+                            <h2 class="kids-section-title pink">Lunch</h2>
+
+                            <div class="kids-item">
+                                <h3>Kids Meat Balls <span class="menu-price">$17.00</span></h3>
+                                <p>Linguine With Tomato Basil Sauce</p>
+                            </div>
+                        </section>
+
+                        <!-- PAGE 4 : FUN BOX + CHIPS -->
+                        <section class="kids-menu-card">
+                            <div class="kids-item">
+                                <h3>Kids Fun Box <span class="menu-price">$14.50</span></h3>
+                                <p>Sandwich, Sweet Treat, Chips, Juice & Surprise<br>
+                                    <small>(GF Option Available)</small>
+                                </p>
+                            </div>
+
+                            <h3 class="kids-section-title">Bowl Of Chips</h3>
+
+                            <table class="kids-price-table">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Small</th>
+                                    <th>Large</th>
+                                </tr>
+                                <tr>
+                                    <td>Straight Cut Chips</td>
+                                    <td class="menu-price">$8.00</td>
+                                    <td class="menu-price">$12.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Sweet Potato Chips</td>
+                                    <td class="menu-price">$12.00</td>
+                                    <td class="menu-price">$16.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Sidewinders</td>
+                                    <td class="menu-price">$12.00</td>
+                                    <td class="menu-price">$16.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Wedges</td>
+                                    <td class="menu-price">$12.00</td>
+                                    <td class="menu-price">$16.00</td>
+                                </tr>
+                            </table>
+
+                            <p class="kids-addons">
+                                Add: Sour Cream $3 | Sweet Chilli $3 | Aioli $3 | Gravy $3
+                            </p>
+
+                            <p class="kids-note">
+                                GF = Gluten Free | VEG = Vegetarian | Vegan options available<br>
+                                Please notify staff of allergies.
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="about-page" class="page" [class.active]="currentPage === 'about'">
+            <section class="about-section full-page">
+                <div class="container">
+                    <a href="#" class="back-btn" (click)="onNavClick('home', undefined, $event)">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="about-image">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                                     class="img-fluid" alt="Urban Cafe Interior">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="about-text">
+                                <h1 class="section-title-left">Our Story</h1>
+                                     <p class="lead mb-4">Urban Cafe Restaurant is the culmination of our passion for exceptional flavors and our desire to create a welcoming, modern dining experience.</p>
+                               <p> We offer a curated selection of local wines, beers, handcrafted cocktails, fresh juices, and our own-brand coffee and gelato, delivering quality in every cup and scoop.</p>
+                               <p>For those on the go, we prepare fresh sandwiches and wraps daily, perfect for quick, convenient grab-and-go meals without compromising on freshness or flavour.</p>
+                               <p>We proudly cater for all dietary needs, including gluten-free, coeliac-friendly, dairy-free, nut-free, and vegan options, ensuring everyone feels welcome.</p>
+                               <p>Every day, our kitchen bakes fresh cakes, muffins, and slices, made in-house for the perfect sweet treat.</p>
+                               <p>Urban Vibes Café — fresh food, inclusive choices, and great vibes, every day. ☕🥪🍰</p>
+                          
+                                <h3 class="mt-5">Our Philosophy</h3>
+                                <p>We believe in using fresh, locally sourced ingredients whenever possible. Our chefs work closely with local farmers and suppliers to ensure the highest quality in every dish we serve.</p>
+                                
+                                <h3 class="mt-5">Visit Us</h3>
+                                <p>Come experience the perfect blend of modern urban atmosphere and exceptional dining. Whether you're stopping by for a quick coffee or settling in for a full meal, we promise an experience that will keep you coming back.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contact-page" class="page" [class.active]="currentPage === 'contact'">
+            <section class="contact-section full-page">
+                <div class="container">
+                    <a href="#" class="back-btn" (click)="onNavClick('home', undefined, $event)">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h1 class="section-title text-center mb-5">Contact Us</h1>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-5">
+                                    <div class="contact-info-card">
+                                        <h3><i class="fas fa-map-marker-alt me-3"></i> Location</h3>
+                                        <p>Shop 34,Armada Bathurst<br>121 Howick Street,Bathurst NSW 2795</p>
+                                    </div>
+                                    
+                                    <div class="contact-info-card mt-4">
+                                        <h3><i class="fas fa-phone me-3"></i> Phone</h3>
+                                        <p>(306) 715-19903</p>
+                                    </div>
+                                    
+                                    <div class="contact-info-card mt-4">
+                                        <h3><i class="fas fa-envelope me-3"></i> Email</h3>
+                                        <p>sunny@urbancaferes.com.au</p>
+                                    </div>
+                                    
+                                    <div class="contact-info-card mt-4">
+                                        <h3><i class="fas fa-clock me-3"></i> Hours</h3>
+                                        <p><strong>Monday - Sunday</strong><br>7:00 AM - 5:00 PM</p>
+                                        <p class="small">Kitchen closes at 4:30 PM</p>
+                                    </div>
+                                    
+                                    <div class="social-icons mt-5">
+                                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-tripadvisor"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                                
+                              <div class="col-md-6">
+    <div class="contact-form-card">
+        <h3 class="mb-4">Book a Table</h3>
+        
+        <!-- Success Popup -->
+        <div *ngIf="showSuccessPopup" class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            Table booked successfully! We'll contact you shortly.
+        </div>
+        
+        <form [formGroup]="fullBookingForm" (ngSubmit)="submitFullBooking()">
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name *</label>
+                <input type="text" class="form-control" id="name" 
+                       formControlName="name"
+                       [ngClass]="{'is-invalid': fullName?.touched && fullName?.invalid}">
+                <div *ngIf="fullName?.touched && fullName?.invalid" class="invalid-feedback">
+                    <div *ngIf="fullName?.errors?.['required']">Name is required</div>
+                    <div *ngIf="fullName?.errors?.['minlength']">Name must be at least 2 characters</div>
+                    <div *ngIf="fullName?.errors?.['pattern']">Only letters and spaces allowed</div>
+                </div>
+            </div>
+            
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input type="email" class="form-control" id="email" 
+                       formControlName="email"
+                       [ngClass]="{'is-invalid': fullEmail?.touched && fullEmail?.invalid}">
+                <div *ngIf="fullEmail?.touched && fullEmail?.invalid" class="invalid-feedback">
+                    <div *ngIf="fullEmail?.errors?.['required']">Email is required</div>
+                    <div *ngIf="fullEmail?.errors?.['email']">Please enter a valid email</div>
+                </div>
+            </div>
+            
+            <!-- Phone -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone *</label>
+                <input type="tel" class="form-control" id="phone" 
+                       formControlName="phone"
+                       [ngClass]="{'is-invalid': fullPhone?.touched && fullPhone?.invalid}">
+                <div *ngIf="fullPhone?.touched && fullPhone?.invalid" class="invalid-feedback">
+                    <div *ngIf="fullPhone?.errors?.['required']">Phone number is required</div>
+                    <div *ngIf="fullPhone?.errors?.['pattern']">Please enter a valid phone number</div>
+                </div>
+            </div>
+            
+            <!-- Date and Time -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="date" class="form-label">Date *</label>
+                    <input type="date" class="form-control" id="date" 
+                           formControlName="date"
+                           [ngClass]="{'is-invalid': fullDate?.touched && fullDate?.invalid}">
+                    <div *ngIf="fullDate?.touched && fullDate?.invalid" class="invalid-feedback">
+                        Date is required
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="time" class="form-label">Time *</label>
+                    <input type="time" class="form-control" id="time" 
+                           formControlName="time"
+                           [ngClass]="{'is-invalid': fullTime?.touched && fullTime?.invalid}">
+                    <div *ngIf="fullTime?.touched && fullTime?.invalid" class="invalid-feedback">
+                        Time is required
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Guests -->
+            <div class="mb-3">
+                <label for="guests" class="form-label">Number of Guests *</label>
+                <select class="form-control" id="guests" 
+                        formControlName="guests"
+                        [ngClass]="{'is-invalid': fullGuests?.touched && fullGuests?.invalid}">
+                    <option value="">Select...</option>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                    <option value="5">5 People</option>
+                    <option value="6">6 People</option>
+                    <option value="7">7+ People</option>
+                </select>
+                <div *ngIf="fullGuests?.touched && fullGuests?.invalid" class="invalid-feedback">
+                    Please select number of guests
+                </div>
+            </div>
+            
+            <!-- Message -->
+            <div class="mb-3">
+                <label for="message" class="form-label">Special Requests</label>
+                <textarea class="form-control" id="message" rows="3"
+                          formControlName="message"></textarea>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100" 
+                    [disabled]="fullBookingForm.invalid || showSuccessPopup">
+                <i class="fas fa-calendar-check me-2"></i>
+                <span *ngIf="!showSuccessPopup">Book Table</span>
+                <span *ngIf="showSuccessPopup">Booked Successfully!</span>
+            </button>
+        </form>
+    </div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Book a Table</h5>
+                <button type="button" class="btn-close" (click)="hideModalAndBackdrop()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Success Popup -->
+                <div *ngIf="showSuccessPopup" class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Table booked successfully! We'll contact you shortly.
+                </div>
                 
-                currentDishId = dish.id;
-                showDishForm();
-            }
-        }
+                <form [formGroup]="quickBookingForm" id="quick-booking-form">
+                    <!-- Name Field -->
+                    <div class="mb-3">
+                        <label for="quick-name" class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="quick-name" 
+                               formControlName="name"
+                               [ngClass]="{'is-invalid': quickName?.touched && quickName?.invalid}">
+                        <div *ngIf="quickName?.touched && quickName?.invalid" class="invalid-feedback">
+                            <div *ngIf="quickName?.errors?.['required']">Name is required</div>
+                            <div *ngIf="quickName?.errors?.['minlength']">Name must be at least 2 characters</div>
+                            <div *ngIf="quickName?.errors?.['pattern']">Only letters and spaces allowed</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phone Field -->
+                    <div class="mb-3">
+                        <label for="quick-phone" class="form-label">Phone *</label>
+                        <input type="tel" class="form-control" id="quick-phone" 
+                               formControlName="phone"
+                               [ngClass]="{'is-invalid': quickPhone?.touched && quickPhone?.invalid}">
+                        <div *ngIf="quickPhone?.touched && quickPhone?.invalid" class="invalid-feedback">
+                            <div *ngIf="quickPhone?.errors?.['required']">Phone number is required</div>
+                            <div *ngIf="quickPhone?.errors?.['pattern']">Please enter a valid phone number</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Date and Time -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="quick-date" class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="quick-date" 
+                                   formControlName="date"
+                                   [ngClass]="{'is-invalid': quickDate?.touched && quickDate?.invalid}">
+                            <div *ngIf="quickDate?.touched && quickDate?.invalid" class="invalid-feedback">
+                                Date is required
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="quick-time" class="form-label">Time *</label>
+                            <input type="time" class="form-control" id="quick-time" 
+                                   formControlName="time"
+                                   [ngClass]="{'is-invalid': quickTime?.touched && quickTime?.invalid}">
+                            <div *ngIf="quickTime?.touched && quickTime?.invalid" class="invalid-feedback">
+                                Time is required
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Guests -->
+                    <div class="mb-3">
+                        <label for="quick-guests" class="form-label">Number of Guests *</label>
+                        <select class="form-control" id="quick-guests" 
+                                formControlName="guests"
+                                [ngClass]="{'is-invalid': quickGuests?.touched && quickGuests?.invalid}">
+                            <option value="">Select...</option>
+                            <option value="1">1 Person</option>
+                            <option value="2" selected>2 People</option>
+                            <option value="3">3 People</option>
+                            <option value="4">4 People</option>
+                            <option value="5">5 People</option>
+                            <option value="6">6 People</option>
+                        </select>
+                        <div *ngIf="quickGuests?.touched && quickGuests?.invalid" class="invalid-feedback">
+                            Please select number of guests
+                        </div>
+                    </div>
+                    
+                    <!-- Preferences -->
+                    <div class="mb-3">
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="quick-smoking" 
+                                   formControlName="smoking">
+                            <label class="form-check-label" for="quick-smoking">Smoking area preferred</label>
+                        </div> -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="quick-outdoor" 
+                                   formControlName="outdoor">
+                            <label class="form-check-label" for="quick-outdoor">Outdoor seating preferred</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="hideModalAndBackdrop()" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="submitQuickBooking()" 
+                        [disabled]="quickBookingForm.invalid || showSuccessPopup">
+                    <i class="fas fa-calendar-check me-2"></i>
+                    <span *ngIf="!showSuccessPopup">Confirm Booking</span>
+                    <span *ngIf="showSuccessPopup">Booked!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // Delete dish
-        function deleteDish(id) {
-            if (confirm('Are you sure you want to delete this dish?')) {
-                menuItems = menuItems.filter(item => item.id !== id);
-                localStorage.setItem('menuItems', JSON.stringify(menuItems));
-                loadMenuItems();
-                loadAdminMenuItems();
-            }
-        }
-
-        // Export menu to JSON file
-        function exportMenu() {
-            const dataStr = JSON.stringify(menuItems, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = 'restaurant-menu.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        }
-
-        // Trigger import menu from JSON file
-        function triggerImport() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = e => { 
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.readAsText(file,'UTF-8');
-                
-                reader.onload = readerEvent => {
-                    const content = readerEvent.target.result;
-                    try {
-                        const importedMenu = JSON.parse(content);
-                        if (Array.isArray(importedMenu)) {
-                            if (confirm('This will replace your current menu. Are you sure?')) {
-                                menuItems = importedMenu;
-                                localStorage.setItem('menuItems', JSON.stringify(menuItems));
-                                loadMenuItems();
-                                loadAdminMenuItems();
-                                alert('Menu imported successfully!');
-                            }
-                        } else {
-                            alert('Invalid menu file format.');
-                        }
-                    } catch (error) {
-                        alert('Error parsing menu file: ' + error.message);
-                    }
-                };
-            };
-            
-            input.click();
-        }
-
-        // Initialize the application when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
-</body>
-</html>
+<!-- Notification Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header" [ngClass]="{'bg-success': toastType === 'success', 'bg-danger': toastType === 'error'}">
+            <strong class="me-auto">Urban Cafe Restaurant</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toast-message">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>

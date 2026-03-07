@@ -12,6 +12,7 @@ import { AuthGuard } from '../Common/authguard';
 import { BookNow } from '../After Login/book-now/book-now';
 import { BookingList } from '../After Login/booking-list/booking-list';
 import { MenuComponent } from '../Before Login/menuComponent/menu';
+import { CategoryDetailComponent } from '../Before Login/menuComponent/category-details/category-details';
 
 export const routes: Routes = [
  
@@ -22,6 +23,8 @@ export const routes: Routes = [
        { path: 'login', component: LoginComponent },
        {path: '',
         component: Menu},
+        
+  { path: 'category/:category', component: CategoryDetailComponent },
          {path : 'book-now',component:BookNow},
          {path : 'Menu',component:MenuComponent}
 

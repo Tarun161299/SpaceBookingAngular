@@ -1,4 +1,4 @@
-<header class="header">
+<!-- <header class="header">
   <div class="container">
     <div class="logo">
       <img src="assets/urbanVibereslogo.png" alt="Urban Vibes Cafe Logo" />
@@ -6,11 +6,53 @@
     </div>
 
     <nav class="nav-links">
-      <!-- <a routerLink="/">Home</a>
-      <a routerLink="/menu">Menu</a> -->
-      <!-- <a routerLink="/about">Login</a> -->
+   
       <a  *ngIf="showHome" (click)="navigateTo('/login')">Login</a>
       <a *ngIf="!showHome" (click)="navigateTo('/')">Home</a>
     </nav>
   </div>
 </header>
+
+.header {
+  background: #171818c2;
+  border-bottom: 2px solid #d4a373;
+  padding: 10px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 112px;
+}
+
+.logo h1 {
+  font-size: 20px;
+  color: #f4eeea;
+  margin: 0;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #f4eeea;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #d17a22;
+}
+ -->
